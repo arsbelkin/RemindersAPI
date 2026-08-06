@@ -26,13 +26,11 @@ public class Reminders
     
     public DateTime? CompletedTime { get; set; }
     
-    public RecurrencyTypes RecurrencyType  { get; set; }
-    
-    public DateTime? RecurrencyDateTime { get; set; }
-    
     public DateTime? DueDate { get; set; }
     
     public Users Creator { get; set; }
     
     public Categories Category { get; set; }
+    
+    public ICollection<Users> Members { get; set; } = new List<Users>();
 }

@@ -16,9 +16,5 @@ public class Categories
     
     public DateTime CreatedTime { get; set; }
     
-    public virtual Users Creator { get; set; }
-    
-    public virtual ICollection<Users> Members { get; set; } = new List<Users>();
-    
-    public virtual ICollection<Reminders> Reminders { get; set; } = new List<Reminders>();
+    public Users Creator { get; set; }
 }

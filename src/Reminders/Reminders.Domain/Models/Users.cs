@@ -4,7 +4,6 @@ public class Users
 {
     public Users()
     {
-        
     }
     
     public Guid Id { get; set; }
