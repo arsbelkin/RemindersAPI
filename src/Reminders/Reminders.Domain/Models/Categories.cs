@@ -1,8 +1,8 @@
 ﻿namespace Reminders.Domain.Models;
 
-public class Categories
+public class Category
 {
-    public Categories()
+    public Category()
     {
     }
     
@@ -16,5 +16,5 @@ public class Categories
     
     public DateTime CreatedTime { get; set; }
     
-    public Users Creator { get; set; }
+    public User Creator { get; set; }
 }

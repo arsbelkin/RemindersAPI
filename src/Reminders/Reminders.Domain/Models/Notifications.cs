@@ -2,7 +2,7 @@
 
 namespace Reminders.Domain.Models;
 
-public class Notifications
+public class Notification
 {
     public Guid Id { get; set; }
     
@@ -16,7 +16,7 @@ public class Notifications
     
     public RecurrencyTypes Recurrency { get; set; }
     
-    public Users Receiver { get; set; }
+    public User Receiver { get; set; }
     
-    public Reminders Reminder { get; set; }
+    public Reminder Reminder { get; set; }
 }

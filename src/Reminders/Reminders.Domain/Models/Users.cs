@@ -1,8 +1,8 @@
 ﻿namespace Reminders.Domain.Models;
 
-public class Users
+public class User
 {
-    public Users()
+    public User()
     {
     }
     

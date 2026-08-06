@@ -2,9 +2,9 @@
 
 namespace Reminders.Domain.Models;
 
-public class Reminders
+public class Reminder
 {
-    public Reminders()
+    public Reminder()
     {
     }
     
@@ -28,9 +28,9 @@ public class Reminders
     
     public DateTime? DueDate { get; set; }
     
-    public Users Creator { get; set; }
+    public User Creator { get; set; }
     
-    public Categories Category { get; set; }
+    public Category Category { get; set; }
     
-    public ICollection<Users> Members { get; set; } = new List<Users>();
+    public ICollection<User> Members { get; set; } = new List<User>();
 }
