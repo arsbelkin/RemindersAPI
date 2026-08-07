@@ -16,17 +16,48 @@ public class AuthController : Controller
     }
     
     [HttpPost("register")]
-    public async Task<ActionResult<Guid>> Register([FromBody] UserDTO dto)
+    public async Task<ActionResult<Guid>> Register([FromBody] UserRegisterDTO registerDto)
     {
         try
         {
-            var res = await _authService.RegisterUserAsync(dto);
+            var userId = await _authService.RegisterUserAsync(registerDto);
 
-            return Ok(res);
+            return Ok(new
+            {
+                id =  userId
+            });
         }
         catch (Exception ex)
         {
             return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost("login")]
+    public async Task<ActionResult<string>> Login([FromBody]  UserLoginDTO dto)
+    {
+        try
+        {
+            var token = await _authService.LoginAsync(dto);
+
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.Now.AddMinutes(2)
+            };
+            
+            Response.Cookies.Append("X-Access-Token", token, cookieOptions);
+            
+            return Ok(new Dictionary<string, string>
+            {
+                { "X-Access-Token", token }
+            });
+        }
+        catch (Exception ex)
+        {
+            return Unauthorized(ex.Message);
         }
     }
 }

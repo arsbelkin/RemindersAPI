@@ -1,6 +1,6 @@
 ﻿namespace Reminders.Application.TransferModels;
 
-public class UserDTO
+public class UserRegisterDTO
 {
     public string Username { get; set; }
     
