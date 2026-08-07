@@ -9,6 +9,7 @@ using Reminders.Application.Common;
 using Reminders.Infrastructure.Repositories.Interfaces;
 using Reminders.Application.TransferModels;
 using Reminders.Domain.Models;
+using Reminders.Application.Exceptions;
 
 namespace Reminders.Application.Services;
 
@@ -31,13 +32,13 @@ public sealed class AuthService : IAuthService
     public async Task<Guid> RegisterUserAsync(UserRegisterDTO dto)
     {
         if (!EmailValidator.IsValid(dto.Email))
-            throw new ArgumentException("Invalid email");
+            throw new NotValidEmailException(dto.Email);
         
         if (dto.Password != dto.PasswordVerify)
-            throw new ArgumentException("Password doesn't match");
+            throw new MatchPasswordException();
         
         if (await _userRepository.CheckUserByEmailAsync(dto.Email))
-            throw new ArgumentException("Email already exists");
+            throw new ExistedEmailException(dto.Email);
         
         var user = new User
         {
@@ -56,12 +57,12 @@ public sealed class AuthService : IAuthService
     public async Task<string> LoginAsync(UserLoginDTO dto)
     {
         var user = await _userRepository.GetUserLoginAsync(dto.InputString);
-        
+
         if (user is null)
-            throw new Exception("not found");
+            throw new LoginException();
         
         if (!_hasher.VerifyHash(dto.Password, user.PasswordHash))
-            throw new Exception("invalid password");
+            throw new LoginException();
 
         var token = GenerateJWTToken(user);
         return token;
