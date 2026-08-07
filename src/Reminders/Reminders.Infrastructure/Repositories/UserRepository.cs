@@ -1,4 +1,5 @@
-﻿using Reminders.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Reminders.Domain.Models;
 using Reminders.Infrastructure.Repositories.Interfaces;
 using Reminders.Infrastructure.Contexts;
 
@@ -18,4 +19,9 @@ public class UserRepository : IUserRepository
         _dbContext.Users.Add(user);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<bool> CheckUserByEmailAsync(string email)
+    {
+        return await _dbContext.Users.AnyAsync(u => u.Email == email);
+    }   
 }

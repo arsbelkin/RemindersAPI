@@ -26,6 +26,9 @@ public sealed class AuthService : IAuthService
         if (dto.Password != dto.PasswordVerify)
             throw new ArgumentException("Password doesn't match");
         
+        if (await _userRepository.CheckUserByEmailAsync(dto.Email))
+            throw new ArgumentException("Email already exists");
+        
         var user = new User
         {
             Id = Guid.CreateVersion7(),
