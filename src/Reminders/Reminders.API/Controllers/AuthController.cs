@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Reminders.Application.Services.Interfaces;
 using Reminders.Application.TransferModels;
 
@@ -59,5 +60,12 @@ public class AuthController : Controller
         {
             return Unauthorized(ex.Message);
         }
+    }
+
+    [HttpPost("logout")]
+    public ActionResult Logout()
+    {
+        Response.Cookies.Delete("X-Access-Token");
+        return Ok();
     }
 }
