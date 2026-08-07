@@ -23,6 +23,7 @@ builder.Services.AddDbContext<RemindersContext>(options =>
 
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddTransient<RemindersContext>();
 
 var app = builder.Build();
 

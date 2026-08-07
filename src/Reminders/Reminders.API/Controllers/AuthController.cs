@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Reminders.Application.Services.Interfaces;
+using Reminders.Application.TransferModels;
 
 namespace Reminders.API.Controllers;
 
@@ -15,8 +16,17 @@ public class AuthController : Controller
     }
     
     [HttpPost]
-    public Task<IActionResult> Register()
+    public async Task<ActionResult<Guid>> Register([FromBody] UserDTO dto)
     {
-        return Task.FromResult<IActionResult>(Ok());
+        try
+        {
+            var res = await _authService.RegisterUserAsync(dto);
+
+            return Ok(res);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }

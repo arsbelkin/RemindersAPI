@@ -1,6 +1,8 @@
-﻿namespace Reminders.Infrastructure.Repositories.Interfaces;
+﻿using Reminders.Domain.Models;
+
+namespace Reminders.Infrastructure.Repositories.Interfaces;
 
 public interface IUserRepository
 {
-    public void CreateUser();
+    public Task CreateUserAsync(User user);
 }

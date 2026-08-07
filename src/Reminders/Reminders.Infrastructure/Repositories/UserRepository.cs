@@ -1,11 +1,21 @@
-﻿using Reminders.Infrastructure.Repositories.Interfaces;
+﻿using Reminders.Domain.Models;
+using Reminders.Infrastructure.Repositories.Interfaces;
+using Reminders.Infrastructure.Contexts;
 
 namespace Reminders.Infrastructure.Repositories;
 
 public class UserRepository : IUserRepository
 {
-    public void CreateUser()
+    private readonly RemindersContext _dbContext;
+    
+    public UserRepository(RemindersContext dbContext)
     {
-        
+        _dbContext = dbContext;
+    }
+    
+    public async Task CreateUserAsync(User user)
+    {
+        _dbContext.Users.Add(user);
+        await _dbContext.SaveChangesAsync();
     }
 }

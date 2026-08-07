@@ -1,6 +1,8 @@
-﻿namespace Reminders.Application.Services.Interfaces;
+﻿using Reminders.Application.TransferModels;
+
+namespace Reminders.Application.Services.Interfaces;
 
 public interface IAuthService
 {
-    public void RegisterUser();
+    public Task<Guid> RegisterUserAsync(UserDTO dto);
 }
