@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Reminders.Infrastructure\Reminders.Infrastructure.csproj" />
+    </ItemGroup>
+
 </Project>

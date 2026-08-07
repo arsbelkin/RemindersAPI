@@ -2,6 +2,12 @@ using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using Reminders.Infrastructure.Contexts;
 
+using Reminders.Infrastructure.Repositories.Interfaces;
+using Reminders.Infrastructure.Repositories;
+
+using Reminders.Application.Services.Interfaces;
+using Reminders.Application.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("PostgresConnection");
@@ -14,6 +20,9 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<RemindersContext>(options =>
     options.UseNpgsql(connectionString));
+
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IAuthService, AuthService>();
 
 var app = builder.Build();
 
