@@ -15,7 +15,7 @@ public class AuthController : Controller
         _authService = authService;
     }
     
-    [HttpPost]
+    [HttpPost("register")]
     public async Task<ActionResult<Guid>> Register([FromBody] UserDTO dto)
     {
         try

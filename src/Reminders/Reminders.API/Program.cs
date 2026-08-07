@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Reminders.API.Extensions;
 using Scalar.AspNetCore;
 using Reminders.Infrastructure.Contexts;
 
@@ -29,6 +30,9 @@ builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<RemindersContext>();
 builder.Services.AddTransient<IHasher, BCryptHasherService>();
 
+builder.Services.AddJWTAuthentication(builder.Configuration);
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -40,6 +44,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

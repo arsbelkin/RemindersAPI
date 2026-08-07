@@ -23,5 +23,5 @@ public class UserRepository : IUserRepository
     public async Task<bool> CheckUserByEmailAsync(string email)
     {
         return await _dbContext.Users.AnyAsync(u => u.Email == email);
-    }   
+    }
 }
