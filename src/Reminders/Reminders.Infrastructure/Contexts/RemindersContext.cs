@@ -2,7 +2,7 @@
 
 using Reminders.Domain.Models;
 
-namespace Reminders.Infrastructure.Persistence.Contexts;
+namespace Reminders.Infrastructure.Contexts;
 
 public class RemindersContext : DbContext
 {

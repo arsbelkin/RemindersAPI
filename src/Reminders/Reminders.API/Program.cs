@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
-using Reminders.Infrastructure.Persistence.Contexts;
+using Reminders.Infrastructure.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
