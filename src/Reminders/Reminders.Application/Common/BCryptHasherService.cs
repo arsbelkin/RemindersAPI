@@ -10,4 +10,9 @@ public class BCryptHasherService : IHasher
         
         return hashPassword;
     }
+
+    public bool VerifyHash(string password,  string hashedPassword)
+    {
+        return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+    }
 }

@@ -59,6 +59,9 @@ public sealed class AuthService : IAuthService
         
         if (user is null)
             throw new Exception("not found");
+        
+        if (!_hasher.VerifyHash(dto.Password, user.PasswordHash))
+            throw new Exception("invalid password");
 
         var token = GenerateJWTToken(user);
         return token;
@@ -74,7 +77,7 @@ public sealed class AuthService : IAuthService
             Subject = new ClaimsIdentity(new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Email, user.Email)
             }),
             Expires = DateTime.UtcNow.AddMinutes(2),
             Issuer = _configuration["JWT:Issuer"],
