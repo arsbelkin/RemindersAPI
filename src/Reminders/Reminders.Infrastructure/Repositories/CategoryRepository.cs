@@ -1,4 +1,5 @@
-﻿using Reminders.Application.Repositories.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Reminders.Application.Repositories.Interfaces;
 using Reminders.Domain.Models;
 using Reminders.Infrastructure.Contexts;
 
@@ -17,5 +18,14 @@ public class CategoryRepository : ICategoryRepository
     {
         _dbContext.Categories.Add(category);
         await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<List<Category>> GetUserCategoriesAsync(Guid userId)
+    {
+        var categories = await _dbContext.Categories
+            .Where(c => c.CreatorId == userId)
+            .ToListAsync();
+        
+        return categories;
     }
 }

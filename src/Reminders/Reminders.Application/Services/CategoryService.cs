@@ -1,4 +1,5 @@
-﻿using Reminders.Application.Repositories.Interfaces;
+﻿using MapsterMapper;
+using Reminders.Application.Repositories.Interfaces;
 using Reminders.Application.Services.Interfaces;
 using Reminders.Application.TransferModels;
 using Reminders.Domain.Models;
@@ -8,10 +9,12 @@ namespace Reminders.Application.Services;
 public class CategoryService : ICategoryService
 {
     private readonly ICategoryRepository _categoryRepository;
+    private readonly IMapper _mapper;
 
-    public CategoryService(ICategoryRepository categoryRepository)
+    public CategoryService(ICategoryRepository categoryRepository, IMapper mapper)
     {
         _categoryRepository = categoryRepository;
+        _mapper = mapper;
     }
     
     public async Task<Guid> CreateCategoryAsync(CategoryCreateDTO dto)
@@ -27,5 +30,12 @@ public class CategoryService : ICategoryService
         
         await _categoryRepository.CreateCategoryAsync(category);
         return category.Id;
+    }
+
+    public async Task<List<CategoryViewDTO>> GetUserCategoriesAsync(Guid userId)
+    {
+        var userCategories = await _categoryRepository.GetUserCategoriesAsync(userId);
+        
+        return _mapper.Map<List<CategoryViewDTO>>(userCategories);
     }
 }

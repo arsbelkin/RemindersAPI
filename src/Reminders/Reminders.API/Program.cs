@@ -1,3 +1,5 @@
+using Mapster;
+using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 using Reminders.API.Extensions;
 using Scalar.AspNetCore;
@@ -36,6 +38,8 @@ builder.Services.AddTransient<IHasher, BCryptHasherService>();
 
 builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
+
+builder.Services.AddMapster();
 
 builder.Services.AddJWTAuthentication(builder.Configuration);
 
