@@ -49,6 +49,19 @@ public class CategoriesController : Controller
         
         await _categoryService.UpdateCategoryAsync(updateDto);
         
-        return Ok();
+        return Ok(new {message = "Category updated successfully"});
+    }
+
+    [HttpDelete("{categoryId}")]
+    public async Task<ActionResult> DeleteCategory(Guid categoryId)
+    {
+        var deleteDto = new CategoryDeleteDTO
+        {
+            Id = categoryId,
+            CreatorId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
+        };
+        
+        await _categoryService.DeleteCategoryAsync(deleteDto);
+        return Ok(new {message = "Category deleted successfully"});
     }
 }

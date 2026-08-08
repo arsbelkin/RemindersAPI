@@ -8,4 +8,5 @@ public interface ICategoryService
     public Task<Guid> CreateCategoryAsync(CategoryCreateDTO dto);
     public Task<List<CategoryViewDTO>> GetUserCategoriesAsync(Guid userId);
     public Task UpdateCategoryAsync(CategoryUpdateDTO dto);
+    public Task DeleteCategoryAsync(CategoryDeleteDTO dto);
 }

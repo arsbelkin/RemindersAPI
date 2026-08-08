@@ -8,4 +8,5 @@ public interface ICategoryRepository
     public Task<List<Category>> GetUserCategoriesAsync(Guid userId);
     public Task<Category?> GetCategoryByIdAsync(Guid categoryId);
     public Task UpdateCategoryAsync(Category category);
+    public Task  DeleteCategoryAsync(Category category);
 }

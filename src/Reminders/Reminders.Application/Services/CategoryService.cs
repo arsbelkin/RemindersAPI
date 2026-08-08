@@ -57,4 +57,17 @@ public class CategoryService : ICategoryService
         
         await _categoryRepository.UpdateCategoryAsync(cat);
     }
+
+    public async Task DeleteCategoryAsync(CategoryDeleteDTO dto)
+    {
+        var cat = await _categoryRepository.GetCategoryByIdAsync(dto.Id);
+        
+        if (cat == null)
+            throw new NotValidCategoryException();
+
+        if (dto.CreatorId != cat.CreatorId)
+            throw new NotValidCategoryException();
+        
+        await _categoryRepository.DeleteCategoryAsync(cat);
+    }
 }
