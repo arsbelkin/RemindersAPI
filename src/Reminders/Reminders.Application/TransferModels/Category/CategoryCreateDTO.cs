@@ -1,4 +1,4 @@
-﻿namespace Reminders.Application.TransferModels;
+﻿namespace Reminders.Application.TransferModels.Category;
 
 public class CategoryCreateDTO
 {

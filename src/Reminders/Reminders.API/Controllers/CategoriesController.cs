@@ -3,7 +3,7 @@ using MapsterMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Reminders.Application.Services.Interfaces;
-using Reminders.Application.TransferModels;
+using Reminders.Application.TransferModels.Category;
 
 namespace Reminders.API.Controllers;
 

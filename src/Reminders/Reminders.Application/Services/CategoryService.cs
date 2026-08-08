@@ -1,7 +1,7 @@
 ﻿using MapsterMapper;
 using Reminders.Application.Repositories.Interfaces;
 using Reminders.Application.Services.Interfaces;
-using Reminders.Application.TransferModels;
+using Reminders.Application.TransferModels.Category;
 using Reminders.Domain.Models;
 
 namespace Reminders.Application.Services;

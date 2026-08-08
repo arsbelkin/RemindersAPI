@@ -1,4 +1,4 @@
-﻿using Reminders.Application.TransferModels;
+﻿using Reminders.Application.TransferModels.Category;
 
 namespace Reminders.Application.Services.Interfaces;
 

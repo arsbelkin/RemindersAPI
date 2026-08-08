@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Reminders.Application.Services.Interfaces;
-using Reminders.Application.TransferModels;
+using Reminders.Application.TransferModels.User;
 
 namespace Reminders.API.Controllers;
 
