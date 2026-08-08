@@ -1,4 +1,5 @@
 ﻿using MapsterMapper;
+using Reminders.Application.Exceptions;
 using Reminders.Application.Repositories.Interfaces;
 using Reminders.Application.Services.Interfaces;
 using Reminders.Application.TransferModels.Category;
@@ -37,5 +38,23 @@ public class CategoryService : ICategoryService
         var userCategories = await _categoryRepository.GetUserCategoriesAsync(userId);
         
         return _mapper.Map<List<CategoryViewDTO>>(userCategories);
+    }
+
+    public async Task UpdateCategoryAsync(CategoryUpdateDTO dto)
+    {
+        var cat = await _categoryRepository.GetCategoryByIdAsync(dto.Id);
+
+        if (cat == null)
+            throw new NotValidCategoryException();
+
+        if (dto.CreatorId != cat.CreatorId)
+            throw new NotValidCategoryException();
+
+        if (dto.Title is not null)
+            cat.Title = dto.Title;
+        
+        cat.Description = dto.Description;
+        
+        await _categoryRepository.UpdateCategoryAsync(cat);
     }
 }

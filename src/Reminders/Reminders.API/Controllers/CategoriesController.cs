@@ -39,4 +39,16 @@ public class CategoriesController : Controller
         
         return Ok(userCategories);
     }
+    
+    [HttpPatch("{categoryId}")]
+    public async Task<ActionResult> UpdateCategory(Guid categoryId, [FromBody] CategoryRequestDTO dto)
+    {
+        var updateDto = _mapper.Map<CategoryUpdateDTO>(dto);
+        updateDto.CreatorId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        updateDto.Id = categoryId;
+        
+        await _categoryService.UpdateCategoryAsync(updateDto);
+        
+        return Ok();
+    }
 }

@@ -30,6 +30,7 @@ public class GlobalExceptionHandler : IExceptionHandler
                 MatchPasswordException => StatusCodes.Status401Unauthorized,
                 ExistedEmailException => StatusCodes.Status409Conflict,
                 LoginException => StatusCodes.Status401Unauthorized,
+                NotValidCategoryException => StatusCodes.Status404NotFound,
                 _ => StatusCodes.Status400BadRequest
             };
         }

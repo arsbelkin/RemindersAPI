@@ -28,4 +28,16 @@ public class CategoryRepository : ICategoryRepository
         
         return categories;
     }
+
+    public async Task<Category?> GetCategoryByIdAsync(Guid categoryId)
+    {
+        var cat = await _dbContext.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
+        return cat;
+    }
+
+    public async Task UpdateCategoryAsync(Category category)
+    {
+        _dbContext.Categories.Update(category);
+        await _dbContext.SaveChangesAsync();
+    }
 }
