@@ -19,7 +19,7 @@ public class AuthController : Controller
     public async Task<ActionResult<Guid>> Register([FromBody] UserRegisterDTO registerDto)
     {
         var userId = await _authService.RegisterUserAsync(registerDto);
-        return Ok(new {id = userId});
+        return Ok(new {UserId = userId});
     }
 
     [HttpPost("login")]
@@ -32,7 +32,7 @@ public class AuthController : Controller
             HttpOnly = true,
             Secure = true,
             SameSite = SameSiteMode.Strict,
-            Expires = DateTime.Now.AddMinutes(2)
+            Expires = DateTime.Now.AddMinutes(15)
         };
         
         Response.Cookies.Append("X-Access-Token", token, cookieOptions);

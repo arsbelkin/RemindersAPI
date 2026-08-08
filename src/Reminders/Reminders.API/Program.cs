@@ -12,6 +12,7 @@ using Reminders.Application.Services;
 using Reminders.Application.Common.Interfaces;
 using Reminders.Application.Common;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("PostgresConnection");
@@ -32,6 +33,9 @@ builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<RemindersContext>();
 builder.Services.AddTransient<IHasher, BCryptHasherService>();
+
+builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+builder.Services.AddTransient<ICategoryService, CategoryService>();
 
 builder.Services.AddJWTAuthentication(builder.Configuration);
 
