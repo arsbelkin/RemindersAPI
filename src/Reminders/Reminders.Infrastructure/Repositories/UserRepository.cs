@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Reminders.Domain.Models;
-using Reminders.Infrastructure.Repositories.Interfaces;
 using Reminders.Infrastructure.Contexts;
+using Reminders.Application.Repositories.Interfaces;
 
 namespace Reminders.Infrastructure.Repositories;
 
@@ -25,7 +25,7 @@ public class UserRepository : IUserRepository
         return await _dbContext.Users.AnyAsync(u => u.Email == email);
     }
 
-    public async Task<User?> GetUserLoginAsync(string inputString)
+    public async Task<User?> GetUserByUsernameOrEmailAsync(string inputString)
     {
         var user = await _dbContext.Users.FirstOrDefaultAsync(u => (u.Email == inputString) || 
                                                         (u.Username == inputString));

@@ -1,10 +1,10 @@
 ﻿using Reminders.Domain.Models;
 
-namespace Reminders.Infrastructure.Repositories.Interfaces;
+namespace Reminders.Application.Repositories.Interfaces;
 
 public interface IUserRepository
 {
     public Task CreateUserAsync(User user);
     public Task<bool> CheckUserByEmailAsync(string email);
-    public Task<User?> GetUserLoginAsync(string inputString);
+    public Task<User?> GetUserByUsernameOrEmailAsync(string inputString);
 }

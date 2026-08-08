@@ -3,7 +3,7 @@ using Reminders.API.Extensions;
 using Scalar.AspNetCore;
 using Reminders.Infrastructure.Contexts;
 
-using Reminders.Infrastructure.Repositories.Interfaces;
+using Reminders.Application.Repositories.Interfaces;
 using Reminders.Infrastructure.Repositories;
 
 using Reminders.Application.Services.Interfaces;

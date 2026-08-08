@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Reminders.Application.Services.Interfaces;
 using Reminders.Application.Common.Interfaces;
 using Reminders.Application.Common;
-using Reminders.Infrastructure.Repositories.Interfaces;
+using Reminders.Application.Repositories.Interfaces;
 using Reminders.Application.TransferModels;
 using Reminders.Domain.Models;
 using Reminders.Application.Exceptions;
@@ -56,7 +56,7 @@ public sealed class AuthService : IAuthService
 
     public async Task<string> LoginAsync(UserLoginDTO dto)
     {
-        var user = await _userRepository.GetUserLoginAsync(dto.InputString);
+        var user = await _userRepository.GetUserByUsernameOrEmailAsync(dto.InputString);
 
         if (user is null)
             throw new LoginException();
