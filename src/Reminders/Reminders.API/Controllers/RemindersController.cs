@@ -24,8 +24,13 @@ public class RemindersController : Controller
     [HttpPost]
     public async Task<ActionResult<Guid>> Create([FromBody] ReminderRequestDTO dto)
     {
+        var userEmail =  User.FindFirstValue(ClaimTypes.Email);
+        
         var createDto = _mapper.Map<ReminderCreateDTO>(dto);
         createDto.CreatorId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        
+        if (!createDto.UsersEmails.Contains(userEmail))
+            createDto.UsersEmails.Add(userEmail);
         
         var reminderId = await _reminderService.CreateReminderAsync(createDto);
         
