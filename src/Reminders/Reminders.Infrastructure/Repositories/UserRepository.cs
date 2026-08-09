@@ -32,4 +32,13 @@ public class UserRepository : IUserRepository
 
         return user;
     }
+
+    public async Task<List<User>> GetAllUsersByEmailAsync(List<string> emails)
+    {
+        var users = await _dbContext.Users
+            .Where(u => emails.Contains(u.Email))
+            .ToListAsync();
+
+        return users;
+    }
 }

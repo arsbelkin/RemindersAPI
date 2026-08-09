@@ -46,4 +46,9 @@ public class CategoryRepository : ICategoryRepository
         _dbContext.Categories.Remove(category);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<bool> CheckCategoryByIdAsync(Guid categoryId)
+    {
+        return await _dbContext.Categories.AnyAsync(c => c.Id == categoryId);
+    }
 }

@@ -31,13 +31,16 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<RemindersContext>(options =>
     options.UseNpgsql(connectionString));
 
-builder.Services.AddTransient<IUserRepository, UserRepository>();
-builder.Services.AddTransient<IAuthService, AuthService>();
-builder.Services.AddTransient<RemindersContext>();
-builder.Services.AddTransient<IHasher, BCryptHasherService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<RemindersContext>();
+builder.Services.AddScoped<IHasher, BCryptHasherService>();
 
-builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
-builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+builder.Services.AddScoped<IReminderRepository, ReminderRepository>();
+builder.Services.AddScoped<IReminderService, ReminderService>();
 
 builder.Services.AddMapster();
 

@@ -1,0 +1,63 @@
+﻿using Reminders.Application.Common;
+using Reminders.Application.Exceptions;
+using Reminders.Application.Repositories.Interfaces;
+using Reminders.Application.Services.Interfaces;
+using Reminders.Application.TransferModels.Reminder;
+using Reminders.Domain.Enums;
+using Reminders.Domain.Models;
+
+namespace Reminders.Application.Services;
+
+public class ReminderService : IReminderService
+{
+    private readonly IReminderRepository _reminderRepository;
+    private readonly IUserRepository _userRepository;
+    private readonly ICategoryRepository _categoryRepository;
+
+    public ReminderService(
+        IReminderRepository reminderRepository,
+        IUserRepository userRepository,
+        ICategoryRepository categoryRepository
+        )
+    {
+        _reminderRepository = reminderRepository;
+        _userRepository = userRepository;
+        _categoryRepository = categoryRepository;
+    }
+
+    public async Task<Guid> CreateReminderAsync(ReminderCreateDTO dto)
+    {
+        foreach (var email in dto.UsersEmails)
+        {
+            if (!EmailValidator.IsValid(email))
+                throw new NotValidEmailException(email);
+            
+            if (!await _userRepository.CheckUserByEmailAsync(email))
+                throw new NotValidEmailException(email);
+
+            if (!await _categoryRepository.CheckCategoryByIdAsync(dto.CategoryId))
+                throw new NotValidCategoryException();
+        }
+        
+        var users = await _userRepository.GetAllUsersByEmailAsync(dto.UsersEmails);
+        
+        var reminder = new Reminder
+        {
+            Id = Guid.CreateVersion7(),
+            CreatorId = dto.CreatorId,
+            CategoryId = dto.CategoryId,
+            Title = dto.Title,
+            Description = dto.Description,
+            CreatedTime = DateTime.UtcNow,
+            Priority = dto.Priority,
+            IsCompleted = CompletedStatusTypes.NotCompleted,
+            CompletedTime = null,
+            DueDate = dto.DueDate,
+            Members = users
+        };
+        
+        await _reminderRepository.CreateReminderAsync(reminder);
+        
+        return reminder.Id;
+    }
+}
