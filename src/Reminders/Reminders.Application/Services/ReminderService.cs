@@ -1,4 +1,5 @@
-﻿using Reminders.Application.Common;
+﻿using MapsterMapper;
+using Reminders.Application.Common;
 using Reminders.Application.Exceptions;
 using Reminders.Application.Repositories.Interfaces;
 using Reminders.Application.Services.Interfaces;
@@ -13,16 +14,19 @@ public class ReminderService : IReminderService
     private readonly IReminderRepository _reminderRepository;
     private readonly IUserRepository _userRepository;
     private readonly ICategoryRepository _categoryRepository;
+    private readonly IMapper _mapper;
 
     public ReminderService(
         IReminderRepository reminderRepository,
         IUserRepository userRepository,
-        ICategoryRepository categoryRepository
+        ICategoryRepository categoryRepository,
+        IMapper mapper
         )
     {
         _reminderRepository = reminderRepository;
         _userRepository = userRepository;
         _categoryRepository = categoryRepository;
+        _mapper = mapper;
     }
 
     public async Task<Guid> CreateReminderAsync(ReminderCreateDTO dto)
@@ -59,5 +63,11 @@ public class ReminderService : IReminderService
         await _reminderRepository.CreateReminderAsync(reminder);
         
         return reminder.Id;
+    }
+
+    public async Task<List<ReminderViewDTO>> GetUserRemindersAsync(Guid userId)
+    {
+        var remindersView = await _reminderRepository.GetRemindersByUserIdAsync(userId);
+        return remindersView;
     }
 }
