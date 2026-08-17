@@ -24,5 +24,5 @@ public class ReminderViewDTO
     
     public DateTime? DueDate { get; set; }
     
-    public List<string> MemberEmails { get; set; } = new List<string>();
+    public List<string> MembersEmails { get; set; } = new List<string>();
 }

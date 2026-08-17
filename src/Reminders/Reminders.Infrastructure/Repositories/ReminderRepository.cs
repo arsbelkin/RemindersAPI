@@ -37,7 +37,7 @@ public class ReminderRepository : IReminderRepository
                 IsCompleted = r.IsCompleted,
                 CompletedTime = r.CompletedTime,
                 DueDate = r.DueDate,
-                MemberEmails = r.Members.Select( m => m.Email).ToList()
+                MembersEmails = r.Members.Select( m => m.Email).ToList()
             })
             .ToListAsync();
 
