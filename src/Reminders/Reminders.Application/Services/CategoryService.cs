@@ -33,11 +33,11 @@ public class CategoryService : ICategoryService
         return category.Id;
     }
 
-    public async Task<List<CategoryViewDTO>> GetUserCategoriesAsync(Guid userId)
+    public async Task<List<CategoryListViewDTO>> GetUserCategoriesAsync(Guid userId)
     {
         var userCategories = await _categoryRepository.GetUserCategoriesAsync(userId);
         
-        return _mapper.Map<List<CategoryViewDTO>>(userCategories);
+        return _mapper.Map<List<CategoryListViewDTO>>(userCategories);
     }
 
     public async Task UpdateCategoryAsync(CategoryUpdateDTO dto)

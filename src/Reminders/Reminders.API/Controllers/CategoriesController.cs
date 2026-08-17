@@ -32,7 +32,7 @@ public class CategoriesController : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<CategoryViewDTO>>> GetUserCategories()
+    public async Task<ActionResult<List<CategoryListViewDTO>>> GetUserCategories()
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var userCategories = await _categoryService.GetUserCategoriesAsync(userId);
