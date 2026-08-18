@@ -46,7 +46,18 @@ public class RemindersController : Controller
         return Ok(reminders);
     }
     
-    [HttpGet("{reminderId}")]
+    [HttpPost("search")]
+    public async Task<ActionResult<List<ReminderListViewDTO>>> GetUserRemindersByFilter(
+        [FromBody] ReminderSearchDTO searchDto
+        )
+    {
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var reminders = await _reminderService.GetUserReminderByFilterAsync(userId, searchDto);
+
+        return Ok(reminders);
+    }
+    
+    [HttpGet("{reminderId:guid}")]
     public async Task<ActionResult<ReminderInfoViewDTO>> GetReminderInfo(Guid reminderId)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));

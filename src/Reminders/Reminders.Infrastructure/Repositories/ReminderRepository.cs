@@ -9,7 +9,7 @@ namespace Reminders.Infrastructure.Repositories;
 public class ReminderRepository : IReminderRepository
 {
     private readonly RemindersContext _dbContext;
-    
+
     public ReminderRepository(RemindersContext dbContext)
     {
         _dbContext = dbContext;
@@ -71,5 +71,52 @@ public class ReminderRepository : IReminderRepository
             .FirstOrDefaultAsync();
 
         return reminderInfo;
+    }
+
+    public IQueryable<Reminder> CreateReminderQuery(Guid userId, ReminderSearchDTO searchDto)
+    {
+        var query = _dbContext.Reminders
+            .Where(r => r.Members.Any(m => m.Id == userId));
+
+        if (!string.IsNullOrWhiteSpace(searchDto.SearchText))
+            query = query.Where(r => EF.Functions.ILike(r.Title, $"%{searchDto.SearchText}%"));
+
+        if (searchDto.CategoryIds.Count > 0)
+            query = query.Where(r => searchDto.CategoryIds.Contains(r.CategoryId));
+
+        if (searchDto.PriorityTypes.Count > 0)
+            query = query.Where(r => searchDto.PriorityTypes.Contains(r.Priority));
+
+        if (searchDto.FromDate != null)
+            query = query.Where(r => r.CreatedTime >= searchDto.FromDate.Value);
+
+        if (searchDto.ToDate != null)
+            query = query.Where(r => r.CreatedTime <= searchDto.ToDate.Value);
+
+        if (searchDto.CompletedStatus != null)
+            query = query.Where(r => r.IsCompleted == searchDto.CompletedStatus.Value);
+
+        if (searchDto.Page != null && searchDto.PageSize != null)
+            query = query.OrderByDescending(r => r.CreatedTime)
+                .Skip((searchDto.Page.Value - 1) * searchDto.PageSize.Value)
+                .Take(searchDto.PageSize.Value);
+
+        return query;
+    }
+
+    public async Task<List<ReminderListViewDTO>> GetRemindersByQuery(IQueryable<Reminder> query)
+    {
+        var reminders = await query.Select(r => new ReminderListViewDTO
+            {
+                Id = r.Id,
+                CategoryId = r.CategoryId,
+                CategoryName = r.Category.Title,
+                Title = r.Title,
+                Priority = r.Priority,
+                IsCompleted = r.IsCompleted
+            })
+            .ToListAsync();
+
+        return reminders;
     }
 }

@@ -80,4 +80,15 @@ public class ReminderService : IReminderService
         
         return reminderInfo;
     }
+
+    public async Task<List<ReminderListViewDTO>> GetUserReminderByFilterAsync(
+        Guid userId,
+        ReminderSearchDTO searchDto
+    )
+    {
+        var reminderQuery = _reminderRepository.CreateReminderQuery(userId, searchDto);
+        var reminders = await _reminderRepository.GetRemindersByQuery(reminderQuery);
+        
+        return reminders;
+    }
 }

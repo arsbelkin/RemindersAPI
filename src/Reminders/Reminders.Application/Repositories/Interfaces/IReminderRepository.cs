@@ -9,4 +9,6 @@ public interface IReminderRepository
     public Task<List<ReminderListViewDTO>> GetRemindersByUserIdAsync(Guid userId);
     public IQueryable<Guid>  GetRemindersByUserIdQuery(Guid userId);
     public Task<ReminderInfoViewDTO?> GetReminderInfoAsync(Guid reminderId, Guid userId);
+    public IQueryable<Reminder> CreateReminderQuery(Guid userId, ReminderSearchDTO searchDto);
+    public Task<List<ReminderListViewDTO>> GetRemindersByQuery(IQueryable<Reminder> query);
 }
