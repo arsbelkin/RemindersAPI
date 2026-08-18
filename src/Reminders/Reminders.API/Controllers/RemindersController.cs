@@ -65,4 +65,13 @@ public class RemindersController : Controller
         
         return  Ok(reminderInfo);
     }
+
+    [HttpPatch("{reminderId:guid}")]
+    public async Task<ActionResult> UpdateReminder(Guid reminderId, [FromBody] ReminderUpdateDTO dto)
+    {
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        await _reminderService.UpdateReminderAsync(reminderId, userId, dto);
+        
+        return Ok(new {message = "Reminder updated successfully"});
+    }
 }

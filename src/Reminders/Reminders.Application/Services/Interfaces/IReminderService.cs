@@ -11,4 +11,5 @@ public interface IReminderService
         Guid userId,
         ReminderSearchDTO searchDto
         );
+    public Task UpdateReminderAsync(Guid reminderId, Guid userId, ReminderUpdateDTO dto);
 }

@@ -91,4 +91,20 @@ public class ReminderService : IReminderService
         
         return reminders;
     }
+
+    public async Task UpdateReminderAsync(Guid reminderId, Guid userId, ReminderUpdateDTO dto)
+    {
+        var reminder = await _reminderRepository.GetReminderAsync(reminderId, userId);
+        
+        if (reminder == null)
+            throw new NotValidReminderException();
+        
+        reminder.CategoryId = dto.CategoryId;
+        reminder.Title = dto.Title;
+        reminder.Description = dto.Description;
+        reminder.Priority = dto.Priority;
+        reminder.DueDate = dto.DueDate;
+        
+        await _reminderRepository.UpdateReminderAsync(reminder);
+    }
 }

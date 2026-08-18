@@ -119,4 +119,17 @@ public class ReminderRepository : IReminderRepository
 
         return reminders;
     }
+
+    public async Task<Reminder?> GetReminderAsync(Guid reminderId, Guid userId)
+    {
+        return await _dbContext.Reminders
+            .FirstOrDefaultAsync(r => r.Id == reminderId
+                                      && r.Members.Any(m => m.Id == userId));
+    }
+
+    public async Task UpdateReminderAsync(Reminder reminder)
+    {
+        _dbContext.Reminders.Update(reminder);
+        await _dbContext.SaveChangesAsync();
+    }
 }
