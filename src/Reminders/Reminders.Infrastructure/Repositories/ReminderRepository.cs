@@ -33,7 +33,6 @@ public class ReminderRepository : IReminderRepository
                 Title = r.Title,
                 Priority = r.Priority,
                 IsCompleted = r.IsCompleted
-                // MembersEmails = r.Members.Select( m => m.Email).ToList()
             })
             .ToListAsync();
 
@@ -47,5 +46,30 @@ public class ReminderRepository : IReminderRepository
             .Select(r => r.CategoryId);
 
         return query;
+    }
+
+    public async Task<ReminderInfoViewDTO?> GetReminderInfoAsync(Guid reminderId, Guid userId)
+    {
+        var reminderInfo = await _dbContext.Reminders
+            .Where(r => r.Id == reminderId)
+            .Where(r => r.Members.Any(m => m.Id == userId))
+            .Select(r => new ReminderInfoViewDTO
+            {
+                Id = r.Id,
+                CreatorId = r.CreatorId,
+                CategoryId = r.CategoryId,
+                CategoryName = r.Category.Title,
+                Title = r.Title,
+                Description = r.Description,
+                CreatedTime = r.CreatedTime,
+                Priority = r.Priority,
+                IsCompleted = r.IsCompleted,
+                CompletedTime = r.CompletedTime,
+                DueDate = r.DueDate,
+                MemberEmails = r.Members.Select(m => m.Email).ToList()
+            })
+            .FirstOrDefaultAsync();
+
+        return reminderInfo;
     }
 }

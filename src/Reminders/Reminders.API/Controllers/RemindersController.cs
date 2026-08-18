@@ -38,11 +38,20 @@ public class RemindersController : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<ReminderViewDTO>>> GetUserReminders()
+    public async Task<ActionResult<List<ReminderListViewDTO>>> GetUserReminders()
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var reminders = await _reminderService.GetUserRemindersAsync(userId);
 
         return Ok(reminders);
+    }
+    
+    [HttpGet("{reminderId}")]
+    public async Task<ActionResult<ReminderInfoViewDTO>> GetReminderInfo(Guid reminderId)
+    {
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var reminderInfo = await  _reminderService.GetReminderInfoAsync(reminderId, userId);
+        
+        return  Ok(reminderInfo);
     }
 }

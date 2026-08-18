@@ -31,6 +31,7 @@ public class GlobalExceptionHandler : IExceptionHandler
                 ExistedEmailException => StatusCodes.Status409Conflict,
                 LoginException => StatusCodes.Status401Unauthorized,
                 NotValidCategoryException => StatusCodes.Status404NotFound,
+                NotValidReminderException => StatusCodes.Status404NotFound,
                 _ => StatusCodes.Status400BadRequest
             };
         }

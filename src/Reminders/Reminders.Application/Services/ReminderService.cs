@@ -70,4 +70,14 @@ public class ReminderService : IReminderService
         var remindersView = await _reminderRepository.GetRemindersByUserIdAsync(userId);
         return remindersView;
     }
+
+    public async Task<ReminderInfoViewDTO> GetReminderInfoAsync(Guid reminderId, Guid userId)
+    {
+        var reminderInfo = await _reminderRepository.GetReminderInfoAsync(reminderId, userId);
+
+        if (reminderInfo == null)
+            throw new NotValidReminderException();
+        
+        return reminderInfo;
+    }
 }

@@ -6,4 +6,5 @@ public interface IReminderService
 {
     public Task<Guid> CreateReminderAsync(ReminderCreateDTO dto);
     public Task<List<ReminderListViewDTO>> GetUserRemindersAsync(Guid userId);
+    public Task<ReminderInfoViewDTO> GetReminderInfoAsync(Guid reminderId, Guid userId);
 }
