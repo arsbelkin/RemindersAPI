@@ -65,7 +65,7 @@ public class ReminderService : IReminderService
         return reminder.Id;
     }
 
-    public async Task<List<ReminderViewDTO>> GetUserRemindersAsync(Guid userId)
+    public async Task<List<ReminderListViewDTO>> GetUserRemindersAsync(Guid userId)
     {
         var remindersView = await _reminderRepository.GetRemindersByUserIdAsync(userId);
         return remindersView;

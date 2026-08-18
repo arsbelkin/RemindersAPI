@@ -21,23 +21,19 @@ public class ReminderRepository : IReminderRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<List<ReminderViewDTO>> GetRemindersByUserIdAsync(Guid userId)
+    public async Task<List<ReminderListViewDTO>> GetRemindersByUserIdAsync(Guid userId)
     {
         var reminders = await _dbContext.Reminders
             .Where(r => r.Members.Any(m => m.Id == userId))
-            .Select(r => new ReminderViewDTO
+            .Select(r => new ReminderListViewDTO
             {
                 Id = r.Id,
                 CategoryId = r.CategoryId,
                 CategoryName = r.Category.Title,
                 Title = r.Title,
-                Description = r.Description,
-                CreatedTime = r.CreatedTime,
                 Priority = r.Priority,
-                IsCompleted = r.IsCompleted,
-                CompletedTime = r.CompletedTime,
-                DueDate = r.DueDate,
-                MembersEmails = r.Members.Select( m => m.Email).ToList()
+                IsCompleted = r.IsCompleted
+                // MembersEmails = r.Members.Select( m => m.Email).ToList()
             })
             .ToListAsync();
 

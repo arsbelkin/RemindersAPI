@@ -2,7 +2,7 @@
 
 namespace Reminders.Application.TransferModels.Reminder;
 
-public class ReminderViewDTO
+public class ReminderListViewDTO
 {
     public Guid Id { get; set; }
     
@@ -12,17 +12,7 @@ public class ReminderViewDTO
     
     public string Title { get; set; }
     
-    public string? Description { get; set; }
-    
-    public DateTime CreatedTime { get; set; }
-    
     public PriorityTypes Priority { get; set; }
     
     public CompletedStatusTypes IsCompleted { get; set; }
-    
-    public DateTime? CompletedTime { get; set; }
-    
-    public DateTime? DueDate { get; set; }
-    
-    public List<string> MembersEmails { get; set; } = new List<string>();
 }
