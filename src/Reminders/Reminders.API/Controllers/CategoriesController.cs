@@ -40,7 +40,7 @@ public class CategoriesController : Controller
         return Ok(userCategories);
     }
 
-    [HttpGet("{categoryId}")]
+    [HttpGet("{categoryId:guid}")]
     public async Task<CategoryInfoViewDTO> GetCategoryInfo(Guid categoryId)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -49,7 +49,7 @@ public class CategoriesController : Controller
         return categoryInfo;
     }
     
-    [HttpPatch("{categoryId}")]
+    [HttpPatch("{categoryId:guid}")]
     public async Task<ActionResult> UpdateCategory(Guid categoryId, [FromBody] CategoryRequestDTO dto)
     {
         var updateDto = _mapper.Map<CategoryUpdateDTO>(dto);
@@ -61,7 +61,7 @@ public class CategoriesController : Controller
         return Ok(new {message = "Category updated successfully"});
     }
 
-    [HttpDelete("{categoryId}")]
+    [HttpDelete("{categoryId:guid}")]
     public async Task<ActionResult> DeleteCategory(Guid categoryId)
     {
         var deleteDto = new CategoryDeleteDTO
