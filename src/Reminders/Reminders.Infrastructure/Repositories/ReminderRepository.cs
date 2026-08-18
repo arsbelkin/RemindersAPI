@@ -43,4 +43,13 @@ public class ReminderRepository : IReminderRepository
 
         return reminders;
     }
+
+    public IQueryable<Guid> GetRemindersByUserIdQuery(Guid userId)
+    {
+        var query = _dbContext.Reminders
+            .Where(r => r.Members.Any(m => m.Id == userId))
+            .Select(r => r.CategoryId);
+
+        return query;
+    }
 }

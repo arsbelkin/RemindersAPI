@@ -2,6 +2,7 @@
 using Reminders.Application.Repositories.Interfaces;
 using Reminders.Domain.Models;
 using Reminders.Infrastructure.Contexts;
+using Reminders.Application.TransferModels.Category;
 
 namespace Reminders.Infrastructure.Repositories;
 
@@ -20,13 +21,32 @@ public class CategoryRepository : ICategoryRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<List<Category>> GetUserCategoriesAsync(Guid userId)
+    public async Task<List<Category>> GetUserCategoriesAsync(IQueryable<Guid> userRemindersQuery, Guid userId)
     {
         var categories = await _dbContext.Categories
-            .Where(c => c.CreatorId == userId)
+            .Where(c => c.CreatorId == userId || userRemindersQuery.Contains(c.Id))
             .ToListAsync();
         
         return categories;
+    }
+
+    public async Task<CategoryInfoViewDTO?> GetCategoryInfoAsync(Guid userId, Guid categoryId, IQueryable<Guid> userRemindersQuery)
+    {
+        var categoryInfo = await _dbContext.Categories
+            .Where(c => c.Id == categoryId)
+            .Where(c => c.CreatorId == userId || userRemindersQuery.Contains(c.Id))
+            .Select(c => new CategoryInfoViewDTO
+            {
+                Id = c.Id,
+                CreatorId =  c.CreatorId,
+                Title =  c.Title,
+                CreatorEmail = _dbContext.Users.Where(u => u.Id == c.CreatorId).Select(u => u.Email).FirstOrDefault(),
+                Description = c.Description,
+                CreatedTime = c.CreatedTime
+            })
+            .FirstOrDefaultAsync();
+
+        return categoryInfo;
     }
 
     public async Task<Category?> GetCategoryByIdAsync(Guid categoryId)

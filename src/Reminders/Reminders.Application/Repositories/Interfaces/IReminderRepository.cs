@@ -7,4 +7,5 @@ public interface IReminderRepository
 {
     public Task CreateReminderAsync(Reminder reminder);
     public Task<List<ReminderViewDTO>> GetRemindersByUserIdAsync(Guid userId);
+    public IQueryable<Guid>  GetRemindersByUserIdQuery(Guid userId);
 }

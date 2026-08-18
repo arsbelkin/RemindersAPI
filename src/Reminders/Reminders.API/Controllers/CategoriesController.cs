@@ -39,6 +39,15 @@ public class CategoriesController : Controller
         
         return Ok(userCategories);
     }
+
+    [HttpGet("{categoryId}")]
+    public async Task<CategoryInfoViewDTO> GetCategoryInfo(Guid categoryId)
+    {
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var categoryInfo = await _categoryService.GetCategoryInfoAsync(categoryId, userId);
+        
+        return categoryInfo;
+    }
     
     [HttpPatch("{categoryId}")]
     public async Task<ActionResult> UpdateCategory(Guid categoryId, [FromBody] CategoryRequestDTO dto)
