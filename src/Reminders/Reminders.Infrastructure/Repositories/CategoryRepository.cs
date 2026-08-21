@@ -9,7 +9,7 @@ namespace Reminders.Infrastructure.Repositories;
 public class CategoryRepository : ICategoryRepository
 {
     private readonly RemindersContext _dbContext;
-    
+
     public CategoryRepository(RemindersContext dbContext)
     {
         _dbContext = dbContext;
@@ -21,16 +21,23 @@ public class CategoryRepository : ICategoryRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<List<Category>> GetUserCategoriesAsync(IQueryable<Guid> userRemindersQuery, Guid userId)
+    public async Task<List<Category>> GetUserCategoriesAsync(
+        IQueryable<Guid> userRemindersQuery,
+        IQueryable<Guid> userCategoriesQuery,
+        Guid userId
+    )
     {
         var categories = await _dbContext.Categories
-            .Where(c => c.CreatorId == userId || userRemindersQuery.Contains(c.Id))
+            .Where(c => c.CreatorId == userId 
+                        || userRemindersQuery.Contains(c.Id))
+            .Where(c => userCategoriesQuery.Contains(c.Id))
             .ToListAsync();
-        
+
         return categories;
     }
 
-    public async Task<CategoryInfoViewDTO?> GetCategoryInfoAsync(Guid userId, Guid categoryId, IQueryable<Guid> userRemindersQuery)
+    public async Task<CategoryInfoViewDTO?> GetCategoryInfoAsync(Guid userId, Guid categoryId,
+        IQueryable<Guid> userRemindersQuery)
     {
         var categoryInfo = await _dbContext.Categories
             .Where(c => c.Id == categoryId)
@@ -38,8 +45,8 @@ public class CategoryRepository : ICategoryRepository
             .Select(c => new CategoryInfoViewDTO
             {
                 Id = c.Id,
-                CreatorId =  c.CreatorId,
-                Title =  c.Title,
+                CreatorId = c.CreatorId,
+                Title = c.Title,
                 CreatorEmail = _dbContext.Users.Where(u => u.Id == c.CreatorId).Select(u => u.Email).FirstOrDefault(),
                 Description = c.Description,
                 CreatedTime = c.CreatedTime
@@ -70,5 +77,19 @@ public class CategoryRepository : ICategoryRepository
     public async Task<bool> CheckCategoryByIdAsync(Guid categoryId)
     {
         return await _dbContext.Categories.AnyAsync(c => c.Id == categoryId);
+    }
+
+    public IQueryable<Guid> CreateCategoryQuery(string? categoryName, Guid? categoryId)
+    {
+        var query = _dbContext.Categories.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(categoryName))
+            query = query
+                .Where(c => EF.Functions.ILike(c.Title, $"%{categoryName}%"));
+
+        if (categoryId != null)
+            query = query.Where(c => c.Id == categoryId);
+
+        return query.Select(c => c.Id);
     }
 }

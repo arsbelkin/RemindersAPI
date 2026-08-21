@@ -14,7 +14,7 @@ public class CategoriesController : Controller
 {
     private readonly ICategoryService _categoryService;
     private readonly IMapper _mapper;
-    
+
     public CategoriesController(ICategoryService categoryService, IMapper mapper)
     {
         _categoryService = categoryService;
@@ -26,17 +26,23 @@ public class CategoriesController : Controller
     {
         var createDto = _mapper.Map<CategoryCreateDTO>(dto);
         createDto.CreatorId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        
+
         var categoryId = await _categoryService.CreateCategoryAsync(createDto);
-        return Ok(new {CategoryId = categoryId});
+        return Ok(new { CategoryId = categoryId });
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<CategoryListViewDTO>>> GetUserCategories()
+    public async Task<ActionResult<List<CategoryListViewDTO>>> GetUserCategories(
+        [FromQuery] string? categoryName,
+        [FromQuery] Guid? categoryId
+    )
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var userCategories = await _categoryService.GetUserCategoriesAsync(userId);
-        
+        var userCategories = await _categoryService.GetUserCategoriesAsync(
+            userId,
+            categoryName,
+            categoryId);
+
         return Ok(userCategories);
     }
 
@@ -45,20 +51,20 @@ public class CategoriesController : Controller
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var categoryInfo = await _categoryService.GetCategoryInfoAsync(categoryId, userId);
-        
+
         return categoryInfo;
     }
-    
+
     [HttpPatch("{categoryId:guid}")]
     public async Task<ActionResult> UpdateCategory(Guid categoryId, [FromBody] CategoryRequestDTO dto)
     {
         var updateDto = _mapper.Map<CategoryUpdateDTO>(dto);
         updateDto.CreatorId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         updateDto.Id = categoryId;
-        
+
         await _categoryService.UpdateCategoryAsync(updateDto);
-        
-        return Ok(new {message = "Category updated successfully"});
+
+        return Ok(new { message = "Category updated successfully" });
     }
 
     [HttpDelete("{categoryId:guid}")]
@@ -69,8 +75,8 @@ public class CategoriesController : Controller
             Id = categoryId,
             CreatorId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
         };
-        
+
         await _categoryService.DeleteCategoryAsync(deleteDto);
-        return Ok(new {message = "Category deleted successfully"});
+        return Ok(new { message = "Category deleted successfully" });
     }
 }
