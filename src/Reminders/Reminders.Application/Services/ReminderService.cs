@@ -107,4 +107,16 @@ public class ReminderService : IReminderService
         
         await _reminderRepository.UpdateReminderAsync(reminder);
     }
+
+    public async Task DeleteReminderAsync(Guid reminderId, Guid userId)
+    {
+        var reminder = await _reminderRepository.GetReminderAsync(reminderId, userId);
+        
+        if (reminder == null)
+            throw new NotValidReminderException();
+        
+        // TODO: сделать актуализацию уведомлений
+        
+        await _reminderRepository.DeleteReminderAsync(reminder);
+    }
 }

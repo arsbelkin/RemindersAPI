@@ -74,4 +74,13 @@ public class RemindersController : Controller
         
         return Ok(new {message = "Reminder updated successfully"});
     }
+
+    [HttpDelete("{reminderId:guid}")]
+    public async Task<ActionResult> DeleteReminder(Guid reminderId)
+    {
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        await _reminderService.DeleteReminderAsync(reminderId, userId);
+        
+        return Ok(new { message = "Reminder deleted successfully" });
+    }
 }

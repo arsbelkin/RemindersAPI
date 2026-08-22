@@ -132,4 +132,10 @@ public class ReminderRepository : IReminderRepository
         _dbContext.Reminders.Update(reminder);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task DeleteReminderAsync(Reminder reminder)
+    {
+        _dbContext.Reminders.Remove(reminder);
+        await _dbContext.SaveChangesAsync();
+    }
 }
