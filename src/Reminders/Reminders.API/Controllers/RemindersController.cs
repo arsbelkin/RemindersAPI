@@ -83,4 +83,22 @@ public class RemindersController : Controller
         
         return Ok(new { message = "Reminder deleted successfully" });
     }
+
+    [HttpPost("{reminderId}/complete")]
+    public async Task<ActionResult> CompleteReminder(Guid reminderId)
+    {
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        await _reminderService.CompleteReminderAsync(reminderId, userId);
+        
+        return Ok(new { message = "Reminder complete successfully" });
+    }
+    
+    [HttpPost("{reminderId}/reopen")]
+    public async Task<ActionResult> ReopenReminder(Guid reminderId)
+    {
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        await _reminderService.ReopenReminderAsync(reminderId, userId);
+        
+        return Ok(new { message = "Reminder reopen successfully" });
+    }
 }

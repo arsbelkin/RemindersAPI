@@ -105,6 +105,8 @@ public class ReminderService : IReminderService
         reminder.Priority = dto.Priority;
         reminder.DueDate = dto.DueDate;
         
+        // TODO: сделать актуализацию уведомлений
+        
         await _reminderRepository.UpdateReminderAsync(reminder);
     }
 
@@ -118,5 +120,35 @@ public class ReminderService : IReminderService
         // TODO: сделать актуализацию уведомлений
         
         await _reminderRepository.DeleteReminderAsync(reminder);
+    }
+
+    public async Task CompleteReminderAsync(Guid reminderId, Guid userId)
+    {
+        var reminder = await _reminderRepository.GetReminderAsync(reminderId, userId);
+        
+        if (reminder == null)
+            throw new NotValidReminderException();
+
+        reminder.IsCompleted = CompletedStatusTypes.Completed;
+        reminder.CompletedTime = DateTime.UtcNow;
+        
+        // TODO: сделать актуализацию уведомлений
+        
+        await _reminderRepository.UpdateReminderAsync(reminder);
+    }
+
+    public async Task ReopenReminderAsync(Guid reminderId, Guid userId)
+    {
+        var reminder = await _reminderRepository.GetReminderAsync(reminderId, userId);
+        
+        if (reminder == null)
+            throw new NotValidReminderException();
+
+        reminder.IsCompleted = CompletedStatusTypes.NotCompleted;
+        reminder.CompletedTime = null;
+        
+        // TODO: сделать актуализацию уведомлений
+        
+        await _reminderRepository.UpdateReminderAsync(reminder);
     }
 }
