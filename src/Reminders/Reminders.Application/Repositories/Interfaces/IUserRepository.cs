@@ -8,4 +8,5 @@ public interface IUserRepository
     public Task<bool> CheckUserByEmailAsync(string email);
     public Task<User?> GetUserByUsernameOrEmailAsync(string inputString);
     public Task<List<User>> GetAllUsersByEmailAsync(List<string> emails);
+    public Task<bool> CheckUserByIdAsync(Guid userId);
 }

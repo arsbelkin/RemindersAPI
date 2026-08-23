@@ -32,6 +32,7 @@ public class GlobalExceptionHandler : IExceptionHandler
                 LoginException => StatusCodes.Status401Unauthorized,
                 NotValidCategoryException => StatusCodes.Status404NotFound,
                 NotValidReminderException => StatusCodes.Status404NotFound,
+                NotValidUserException => StatusCodes.Status400BadRequest,
                 _ => StatusCodes.Status400BadRequest
             };
         }

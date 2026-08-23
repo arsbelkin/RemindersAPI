@@ -138,4 +138,11 @@ public class ReminderRepository : IReminderRepository
         _dbContext.Reminders.Remove(reminder);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<bool> CheckUserReminderByIdAsync(Guid reminderId, Guid userId)
+    {
+        return await _dbContext.Reminders
+            .AnyAsync(r => (r.Id == reminderId)
+                && (r.Members.Any(m => m.Id == userId)));
+    }
 }

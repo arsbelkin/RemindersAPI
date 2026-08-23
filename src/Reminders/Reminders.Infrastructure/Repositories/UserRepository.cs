@@ -41,4 +41,9 @@ public class UserRepository : IUserRepository
 
         return users;
     }
+
+    public async Task<bool> CheckUserByIdAsync(Guid userId)
+    {
+        return await _dbContext.Users.AnyAsync(u => u.Id == userId);
+    }
 }
