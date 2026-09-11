@@ -97,5 +97,7 @@ public class CategoryService : ICategoryService
             throw new NotValidCategoryException();
 
         await _categoryRepository.DeleteCategoryAsync(cat);
+        
+        // TODO: актуализировать уведомления
     }
 }
