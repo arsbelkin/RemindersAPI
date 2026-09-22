@@ -17,7 +17,7 @@ namespace Reminders.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.10")
+                .HasAnnotation("ProductVersion", "10.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -183,6 +183,10 @@ namespace Reminders.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasComment("email");
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("boolean")
+                        .HasComment("является ли пользователь админом");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()

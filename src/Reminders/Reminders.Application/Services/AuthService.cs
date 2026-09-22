@@ -46,7 +46,8 @@ public sealed class AuthService : IAuthService
             Username = dto.Username,
             Email = dto.Email,
             PasswordHash = _hasher.CalculateHash(dto.Password),
-            CreatedTime = DateTime.UtcNow
+            CreatedTime = DateTime.UtcNow,
+            IsAdmin = false
         };
         
         await _userRepository.CreateUserAsync(user);

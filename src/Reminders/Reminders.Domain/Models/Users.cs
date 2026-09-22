@@ -15,4 +15,6 @@ public class User
     public string PasswordHash { get; set; }
     
     public DateTime CreatedTime { get; set; }
+    
+    public bool IsAdmin { get; set; }
 }
