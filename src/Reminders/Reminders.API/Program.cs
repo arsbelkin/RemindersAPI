@@ -1,5 +1,4 @@
 using Mapster;
-using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 using Reminders.API.Extensions;
 using Scalar.AspNetCore;
@@ -44,6 +43,9 @@ builder.Services.AddScoped<IReminderService, ReminderService>();
 
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
+
+builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+builder.Services.AddScoped<IAdminService, AdminService>();
 
 builder.Services.AddMapster();
 
