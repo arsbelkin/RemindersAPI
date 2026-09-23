@@ -20,6 +20,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Reminders.Application\Reminders.Application.csproj" />
+      <ProjectReference Include="..\Reminders.DbScannerWorker\Reminders.DbScannerWorker.csproj" />
       <ProjectReference Include="..\Reminders.Infrastructure\Reminders.Infrastructure.csproj" />
     </ItemGroup>
 

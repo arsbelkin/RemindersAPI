@@ -51,6 +51,8 @@ builder.Services.AddMapster();
 
 builder.Services.AddJWTAuthentication(builder.Configuration);
 
+builder.Services.AddHostedService<Reminders.DbScannerWorker.Worker>();
+
 
 var app = builder.Build();
 
