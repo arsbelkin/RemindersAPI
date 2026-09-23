@@ -32,6 +32,7 @@ public class NotificationRepository : INotificationRepository
             {
                 NotificationId = x.Id,
                 ReceiverEmail = x.Receiver.Email,
+                CategoryTitle = x.Reminder.Category.Title,
                 ReminderTitle = x.Reminder.Title,
                 ReminderDescription = x.Reminder.Description,
                 NotificationTime = x.NotificationTime

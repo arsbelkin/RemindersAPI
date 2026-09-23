@@ -6,6 +6,8 @@ public class NotificationMessageDTO
     
     public string ReceiverEmail { get; set; }
     
+    public string CategoryTitle { get; set; }
+    
     public string ReminderTitle { get; set; }
     
     public string? ReminderDescription { get; set; }
