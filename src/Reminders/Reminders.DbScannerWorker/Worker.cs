@@ -74,7 +74,7 @@ public class Worker : BackgroundService
             now.Hour,
             now.Minute,
             now.Second
-        ).AddSeconds(10);
+        ).AddMinutes(1);
 
         return nextHour - now;
     }
