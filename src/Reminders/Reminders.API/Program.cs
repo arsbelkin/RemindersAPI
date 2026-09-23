@@ -12,6 +12,7 @@ using Reminders.Application.Services;
 
 using Reminders.Application.Common.Interfaces;
 using Reminders.Application.Common;
+using Reminders.Infrastructure.Messaging;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -50,6 +51,10 @@ builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddMapster();
 
 builder.Services.AddJWTAuthentication(builder.Configuration);
+
+builder.Services.AddMassTransitPublisher(builder.Configuration);
+
+builder.Services.AddScoped<INotificationPublisher, MassTransitNotificationPublisher>();
 
 builder.Services.AddHostedService<Reminders.DbScannerWorker.Worker>();
 

@@ -1,5 +1,5 @@
 services:
-  db:
+  reminders-postrgres-db:
     image: postgres:latest
     container_name: postgresDb
     environment:
@@ -11,6 +11,20 @@ services:
     volumes:
       - postgresDataVolume:/var/lib/postgresql
 
+  reminders-rabbitmq:
+    image: rabbitmq:4-management
+    container_name: reminders-rabbitmq
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
 
 volumes:
   postgresDataVolume:
+  rabbitmq_data:

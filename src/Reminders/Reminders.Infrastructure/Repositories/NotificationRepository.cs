@@ -1,4 +1,6 @@
-﻿using Reminders.Application.Repositories.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Reminders.Application.Repositories.Interfaces;
+using Reminders.Application.TransferModels.Notification;
 using Reminders.Domain.Models;
 using Reminders.Infrastructure.Contexts;
 
@@ -17,5 +19,19 @@ public class NotificationRepository : INotificationRepository
     {
         await _dbContext.Notifications.AddAsync(notification);
         await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<List<NotificationMessageDTO>> GetComingNotificationsAsync(CancellationToken stoppingToken)
+    {
+        var res = await _dbContext.Notifications
+            .Where(n => n.NotificationTime > DateTime.UtcNow &&
+                        n.NotificationTime <= DateTime.UtcNow.AddHours(1))
+            .Select(x => new NotificationMessageDTO
+            {
+                Id = x.Id,
+                Title = x.Reminder.Title
+            }).ToListAsync(stoppingToken);
+
+        return res;
     }
 }
