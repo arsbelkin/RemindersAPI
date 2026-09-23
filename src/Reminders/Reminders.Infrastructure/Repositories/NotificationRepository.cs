@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Reminders.Application.Repositories.Interfaces;
 using Reminders.Application.TransferModels.Notification;
+using Reminders.Domain.Enums;
 using Reminders.Domain.Models;
 using Reminders.Infrastructure.Contexts;
 
@@ -14,7 +15,7 @@ public class NotificationRepository : INotificationRepository
     {
         _dbContext = dbContext;
     }
-    
+
     public async Task CreateNotificationAsync(Notification notification)
     {
         await _dbContext.Notifications.AddAsync(notification);
@@ -24,14 +25,28 @@ public class NotificationRepository : INotificationRepository
     public async Task<List<NotificationMessageDTO>> GetComingNotificationsAsync(CancellationToken stoppingToken)
     {
         var res = await _dbContext.Notifications
+            .Where(n => n.IsProcessed == ProcessedStatusTypes.NotProcessed)
             .Where(n => n.NotificationTime > DateTime.UtcNow &&
                         n.NotificationTime <= DateTime.UtcNow.AddHours(1))
             .Select(x => new NotificationMessageDTO
             {
-                Id = x.Id,
-                Title = x.Reminder.Title
+                NotificationId = x.Id,
+                ReceiverEmail = x.Receiver.Email,
+                ReminderTitle = x.Reminder.Title,
+                ReminderDescription = x.Reminder.Description,
+                NotificationTime = x.NotificationTime
             }).ToListAsync(stoppingToken);
 
         return res;
+    }
+
+    public async Task UpdateComingNotificationsAsync(List<NotificationMessageDTO> notifications,
+        CancellationToken stoppingToken)
+    {
+        await _dbContext.Notifications
+            .Where(n => notifications.Select(x => x.NotificationId).Contains(n.Id))
+            .ExecuteUpdateAsync(setters =>
+                    setters.SetProperty(x => x.IsProcessed, ProcessedStatusTypes.Processed),
+                stoppingToken);
     }
 }

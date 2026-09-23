@@ -2,7 +2,13 @@
 
 public class NotificationMessageDTO
 {
-    public Guid Id { get; set; }
+    public Guid NotificationId { get; set; }
     
-    public string Title { get; set; }
+    public string ReceiverEmail { get; set; }
+    
+    public string ReminderTitle { get; set; }
+    
+    public string? ReminderDescription { get; set; }
+    
+    public DateTime NotificationTime { get; set; }
 }

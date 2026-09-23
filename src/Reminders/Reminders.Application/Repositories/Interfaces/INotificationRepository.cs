@@ -7,4 +7,7 @@ public interface INotificationRepository
 {
     public Task CreateNotificationAsync(Notification notification);
     public Task<List<NotificationMessageDTO>> GetComingNotificationsAsync(CancellationToken stoppingToken);
+
+    public Task UpdateComingNotificationsAsync(List<NotificationMessageDTO> notifications,
+        CancellationToken stoppingToken);
 }

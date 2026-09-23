@@ -39,18 +39,19 @@ public class Worker : BackgroundService
 
         var notifications = await notificationRepository
             .GetComingNotificationsAsync(stoppingToken);
-
-        if (_logger.IsEnabled(LogLevel.Information))
+        
+        foreach (var notification in notifications)
         {
-            _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-
-            foreach (var notification in notifications)
+            if (_logger.IsEnabled(LogLevel.Information))
             {
-                _logger.LogInformation(notification.Title);
-                
-                await publisher.SendAsync(notification, stoppingToken);
+                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
             }
+                
+            await publisher.SendAsync(notification, stoppingToken);
         }
+        
+        if (notifications.Count > 0)
+            await notificationRepository.UpdateComingNotificationsAsync(notifications, stoppingToken);
     }
 
     private static TimeSpan CalculateDelay()
