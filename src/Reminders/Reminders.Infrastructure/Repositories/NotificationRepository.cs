@@ -22,25 +22,25 @@ public class NotificationRepository : INotificationRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<List<Notification>> GetComingNotificationsAsync(CancellationToken stoppingToken)
+    public async Task<List<Notification>> GetComingNotificationsAsync()
     {
         var res = await _dbContext.Notifications
             .Where(n => n.IsProcessed == ProcessedStatusTypes.NotProcessed)
             .Where(n => n.NotificationTime > DateTime.UtcNow &&
                         n.NotificationTime <= DateTime.UtcNow.AddHours(1))
-            .ToListAsync(stoppingToken);
+            .ToListAsync();
 
         return res;
     }
 
-    public async Task UpdateNotificationsListAsync(List<Notification> notifications, CancellationToken stoppingToken)
+    public async Task UpdateNotificationsListAsync(List<Notification> notifications)
     {
         foreach (var notification in notifications)
         {
             _dbContext.Notifications.Update(notification);
         }
         
-        await _dbContext.SaveChangesAsync(stoppingToken);
+        await _dbContext.SaveChangesAsync();
     }
     
     public async Task<List<NotificationListDTO>> GetUserNotifications(Guid userId)

@@ -3,6 +3,7 @@ using Reminders.Application.Repositories.Interfaces;
 using Reminders.Application.Services.Interfaces;
 using Reminders.Application.TransferModels.Notification;
 using Reminders.Domain.Enums;
+using Reminders.Domain.Models;
 
 namespace Reminders.DbScannerWorker;
 
@@ -37,36 +38,41 @@ public class Worker : BackgroundService
         using var scope = _scopeFactory.CreateScope();
 
         var notificationRepository = scope.ServiceProvider.GetRequiredService<INotificationRepository>();
-        
+
         var publisher = scope.ServiceProvider.GetRequiredService<INotificationPublisher>();
 
         var notifications = await notificationRepository
-            .GetComingNotificationsAsync(stoppingToken);
-        
+            .GetComingNotificationsAsync();
+
         foreach (var notification in notifications)
         {
             if (_logger.IsEnabled(LogLevel.Information))
             {
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
             }
-                
-            await publisher.SendAsync(new NotificationMessageDTO
+
+            var message = new NotificationMessageDTO
             {
-                MessageType = MessageTypes.Add,
-                NotificationId = notification.Id,
                 ReceiverEmail = notification.Receiver.Email,
                 CategoryTitle = notification.Reminder.Category.Title,
                 ReminderTitle = notification.Reminder.Title,
                 ReminderDescription = notification.Reminder.Description,
                 NotificationTime = notification.NotificationTime
-            }, stoppingToken);
-            
+            };
+
+            await publisher.SendAsync(new NotificationWrapper
+            {
+                MessageType = MessageTypes.Add,
+                NotificationId = notification.Id,
+                NotificationMessage = message
+            });
+
             notification.UpdateNotificationTime();
             notification.IsProcessed = ProcessedStatusTypes.Processed;
         }
-        
+
         if (notifications.Count > 0)
-            await notificationRepository.UpdateNotificationsListAsync(notifications, stoppingToken);
+            await notificationRepository.UpdateNotificationsListAsync(notifications);
     }
 
     private static TimeSpan CalculateDelay()

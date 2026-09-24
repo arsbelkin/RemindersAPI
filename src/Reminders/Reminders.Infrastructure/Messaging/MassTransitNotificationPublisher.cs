@@ -13,10 +13,10 @@ public class MassTransitNotificationPublisher : INotificationPublisher
         _sendEndpointProvider = sendEndpointProvider;
     }
     
-    public async Task SendAsync(NotificationMessageDTO message, CancellationToken cancellationToken)
+    public async Task SendAsync(NotificationWrapper message)
     {
         var endpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:notifications"));
 
-        await endpoint.Send(message, cancellationToken);
+        await endpoint.Send(message);
     }
 }

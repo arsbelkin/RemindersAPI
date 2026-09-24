@@ -1,8 +1,10 @@
 ﻿using MapsterMapper;
 using Reminders.Application.Common;
+using Reminders.Application.Enums;
 using Reminders.Application.Exceptions;
 using Reminders.Application.Repositories.Interfaces;
 using Reminders.Application.Services.Interfaces;
+using Reminders.Application.TransferModels.Notification;
 using Reminders.Application.TransferModels.Reminder;
 using Reminders.Domain.Enums;
 using Reminders.Domain.Models;
@@ -15,18 +17,21 @@ public class ReminderService : IReminderService
     private readonly IUserRepository _userRepository;
     private readonly ICategoryRepository _categoryRepository;
     private readonly IMapper _mapper;
+    private readonly INotificationPublisher _notificationPublisher;
 
     public ReminderService(
         IReminderRepository reminderRepository,
         IUserRepository userRepository,
         ICategoryRepository categoryRepository,
-        IMapper mapper
+        IMapper mapper,
+        INotificationPublisher notificationPublisher
         )
     {
         _reminderRepository = reminderRepository;
         _userRepository = userRepository;
         _categoryRepository = categoryRepository;
         _mapper = mapper;
+        _notificationPublisher = notificationPublisher;
     }
 
     public async Task<Guid> CreateReminderAsync(ReminderCreateDTO dto)
@@ -105,9 +110,12 @@ public class ReminderService : IReminderService
         reminder.Priority = dto.Priority;
         reminder.DueDate = dto.DueDate;
         
-        // TODO: сделать актуализацию уведомлений
-        
         await _reminderRepository.UpdateReminderAsync(reminder);
+        
+        await _notificationPublisher.SendAsync(new NotificationWrapper
+        {
+            MessageType = MessageTypes.Update
+        });
     }
 
     public async Task DeleteReminderAsync(Guid reminderId, Guid userId)

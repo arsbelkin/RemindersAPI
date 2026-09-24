@@ -4,5 +4,5 @@ namespace Reminders.Application.Services.Interfaces;
 
 public interface INotificationPublisher
 {
-    public Task SendAsync(NotificationMessageDTO message, CancellationToken cancellationToken);
+    public Task SendAsync(NotificationWrapper message);
 }
