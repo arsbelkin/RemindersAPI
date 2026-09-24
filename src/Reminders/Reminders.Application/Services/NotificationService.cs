@@ -9,18 +9,15 @@ namespace Reminders.Application.Services;
 
 public class NotificationService : INotificationService
 {
-    private readonly IUserRepository _userRepository;
     private readonly IReminderRepository _reminderRepository;
     private readonly INotificationRepository _notificationRepository;
 
     public NotificationService(
         IReminderRepository reminderRepository,
-        IUserRepository userRepository,
         INotificationRepository notificationRepository
     )
     {
         _reminderRepository = reminderRepository;
-        _userRepository = userRepository;
         _notificationRepository = notificationRepository;
     }
 
@@ -49,5 +46,15 @@ public class NotificationService : INotificationService
         var notifications = await _notificationRepository.GetUserNotifications(userId);
 
         return notifications;
+    }
+
+    public async Task DeleteNotification(Guid notificationId, Guid userId)
+    {
+        var notification = await _notificationRepository.GetNotification(notificationId, userId);
+        
+        if (notification == null)
+            throw new NotValidReminderException();
+        
+        await _notificationRepository.DeleteNotification(notification);
     }
 }

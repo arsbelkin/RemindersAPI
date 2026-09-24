@@ -35,4 +35,13 @@ public class NotificationsController : Controller
         
         return Ok(notifications);
     }
+
+    [HttpDelete("{notificationId}")]
+    public async Task<ActionResult> DeleteNotification(Guid notificationId)
+    {
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        await _notificationService.DeleteNotification(notificationId, userId);
+        
+        return Ok(new { message = "Notification deleted successfully" });
+    }
 }

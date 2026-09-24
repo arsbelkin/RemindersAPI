@@ -58,4 +58,18 @@ public class NotificationRepository : INotificationRepository
 
         return res;
     }
+
+    public async Task<Notification?> GetNotification(Guid notificationId, Guid userId)
+    {
+        var res = await _dbContext.Notifications
+            .FirstOrDefaultAsync(x => x.Id == notificationId && x.Receiver.Id == userId);
+
+        return res;
+    }
+
+    public async Task DeleteNotification(Notification notification)
+    {
+        _dbContext.Notifications.Remove(notification);
+        await _dbContext.SaveChangesAsync(CancellationToken.None);
+    }
 }
