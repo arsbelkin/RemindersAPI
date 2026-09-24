@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Reminders.Application.Enums;
 using Reminders.Application.Repositories.Interfaces;
 using Reminders.Application.TransferModels.Notification;
 using Reminders.Domain.Enums;
@@ -30,6 +31,7 @@ public class NotificationRepository : INotificationRepository
                         n.NotificationTime <= DateTime.UtcNow.AddHours(1))
             .Select(x => new NotificationMessageDTO
             {
+                MessageType = MessageTypes.Add,
                 NotificationId = x.Id,
                 ReceiverEmail = x.Receiver.Email,
                 CategoryTitle = x.Reminder.Category.Title,
@@ -49,5 +51,21 @@ public class NotificationRepository : INotificationRepository
             .ExecuteUpdateAsync(setters =>
                     setters.SetProperty(x => x.IsProcessed, ProcessedStatusTypes.Processed),
                 stoppingToken);
+    }
+
+    public async Task<List<NotificationListDTO>> GetUserNotifications(Guid userId)
+    {
+        var res = await _dbContext.Notifications
+            .Where(x => x.Receiver.Id == userId)
+            .Select(x => new NotificationListDTO
+            {
+                Id = x.Id,
+                ReminderId = x.ReminderId,
+                ReminderTitle = x.Reminder.Title,
+                NotificationTime = x.NotificationTime,
+                Recurrency = x.Recurrency
+            }).ToListAsync();
+
+        return res;
     }
 }

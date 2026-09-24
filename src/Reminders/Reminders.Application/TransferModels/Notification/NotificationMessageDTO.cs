@@ -1,7 +1,11 @@
-﻿namespace Reminders.Application.TransferModels.Notification;
+﻿using Reminders.Application.Enums;
+
+namespace Reminders.Application.TransferModels.Notification;
 
 public class NotificationMessageDTO
 {
+    public MessageTypes MessageType { get; set; }
+    
     public Guid NotificationId { get; set; }
     
     public string ReceiverEmail { get; set; }

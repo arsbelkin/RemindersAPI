@@ -26,4 +26,13 @@ public class NotificationsController : Controller
 
         return Ok(new { NotificationId = notificationId });
     }
+
+    [HttpGet]
+    public async Task<ActionResult<List<NotificationListDTO>>> GetUserNotifications()
+    {
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var notifications = await _notificationService.GetUserNotifications(userId);
+        
+        return Ok(notifications);
+    }
 }

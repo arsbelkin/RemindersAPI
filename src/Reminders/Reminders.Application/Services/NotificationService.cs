@@ -12,7 +12,7 @@ public class NotificationService : INotificationService
     private readonly IUserRepository _userRepository;
     private readonly IReminderRepository _reminderRepository;
     private readonly INotificationRepository _notificationRepository;
-    
+
     public NotificationService(
         IReminderRepository reminderRepository,
         IUserRepository userRepository,
@@ -23,7 +23,7 @@ public class NotificationService : INotificationService
         _userRepository = userRepository;
         _notificationRepository = notificationRepository;
     }
-    
+
     public async Task<Guid> CreateNotificationAsync(NotificationCreateDTO dto, Guid userId)
     {
         if (!(await _reminderRepository.CheckUserReminderByIdAsync(dto.ReminderId, userId)))
@@ -32,7 +32,7 @@ public class NotificationService : INotificationService
         var notification = new Notification
         {
             Id = Guid.CreateVersion7(),
-            ReminderId =  dto.ReminderId,
+            ReminderId = dto.ReminderId,
             ReceiverId = userId,
             IsProcessed = ProcessedStatusTypes.NotProcessed,
             NotificationTime = dto.NotificationTime,
@@ -40,7 +40,14 @@ public class NotificationService : INotificationService
         };
 
         await _notificationRepository.CreateNotificationAsync(notification);
-        
+
         return notification.Id;
+    }
+
+    public async Task<List<NotificationListDTO>> GetUserNotifications(Guid userId)
+    {
+        var notifications = await _notificationRepository.GetUserNotifications(userId);
+
+        return notifications;
     }
 }

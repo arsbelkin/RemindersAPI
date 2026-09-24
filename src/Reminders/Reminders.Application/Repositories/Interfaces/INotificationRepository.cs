@@ -10,4 +10,6 @@ public interface INotificationRepository
 
     public Task UpdateComingNotificationsAsync(List<NotificationMessageDTO> notifications,
         CancellationToken stoppingToken);
+    
+    public Task<List<NotificationListDTO>> GetUserNotifications(Guid userId);
 }
