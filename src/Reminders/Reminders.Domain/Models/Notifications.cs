@@ -19,4 +19,25 @@ public class Notification
     public User Receiver { get; set; }
     
     public Reminder Reminder { get; set; }
+    
+    public void UpdateNotificationTime()
+    {
+        switch (Recurrency)
+        {
+            case RecurrencyTypes.Daily:
+                NotificationTime = DateTime.UtcNow.AddDays(1);
+                break;
+            case RecurrencyTypes.Monthly:
+                NotificationTime = DateTime.UtcNow.AddMonths(1);
+                break;
+            case RecurrencyTypes.Weekly:
+                NotificationTime = DateTime.UtcNow.AddDays(7);
+                break;
+            case RecurrencyTypes.Yearly:
+                NotificationTime = DateTime.UtcNow.AddYears(1);
+                break;
+            default:
+                break;
+        }
+    }
 }
