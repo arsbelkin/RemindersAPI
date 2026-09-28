@@ -24,7 +24,24 @@ services:
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
 
+  redis:
+    image: redis:7.2-alpine
+    container_name: redis_scheduler
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: >
+      redis-server 
+      --appendonly yes 
+      --appendfsync everysec 
+      --maxmemory 512mb 
+      --maxmemory-policy noeviction
+
 
 volumes:
   postgresDataVolume:
   rabbitmq_data:
+  redis_data:
+    driver: local
