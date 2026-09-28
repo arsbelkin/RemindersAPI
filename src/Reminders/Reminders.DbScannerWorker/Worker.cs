@@ -3,7 +3,6 @@ using Reminders.Application.Repositories.Interfaces;
 using Reminders.Application.Services.Interfaces;
 using Reminders.Application.TransferModels.Notification;
 using Reminders.Domain.Enums;
-using Reminders.Domain.Models;
 
 namespace Reminders.DbScannerWorker;
 

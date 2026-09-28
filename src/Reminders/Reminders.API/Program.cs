@@ -13,11 +13,13 @@ using Reminders.Application.Services;
 using Reminders.Application.Common.Interfaces;
 using Reminders.Application.Common;
 using Reminders.Infrastructure.Messaging;
+using StackExchange.Redis;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("PostgresConnection");
+var redisConnectionString = builder.Configuration.GetConnectionString("RedisConnection");
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -30,6 +32,9 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<RemindersContext>(options =>
     options.UseNpgsql(connectionString));
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+    ConnectionMultiplexer.Connect(redisConnectionString));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -55,6 +60,8 @@ builder.Services.AddJWTAuthentication(builder.Configuration);
 builder.Services.AddMassTransitPublisher(builder.Configuration);
 
 builder.Services.AddScoped<INotificationPublisher, MassTransitNotificationPublisher>();
+
+builder.Services.AddSingleton<IRedisNotification, RedisNotificationClient>();
 
 builder.Services.AddHostedService<Reminders.DbScannerWorker.Worker>();
 
