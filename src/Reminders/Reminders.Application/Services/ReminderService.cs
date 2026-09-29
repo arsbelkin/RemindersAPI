@@ -152,7 +152,20 @@ public class ReminderService : IReminderService
         reminder.IsCompleted = CompletedStatusTypes.Completed;
         reminder.CompletedTime = DateTime.UtcNow;
 
-        // TODO: сделать актуализацию уведомлений -> удаление всех напоминаний
+        var processedNotifications =
+            await _notificationRepository.GetNotificationsByReminder(reminderId, 
+                ProcessedStatusTypes.Processed);
+
+        foreach (var notification in processedNotifications)
+        {
+            await _redis.DeleteFromQueueAsync(new NotificationWrapper
+            {
+                MessageType = MessageTypes.Delete,
+                NotificationId = notification.Id,
+            });
+        }
+        
+        await _notificationRepository.DeleteNotificationByReminderId(reminderId);
 
         await _reminderRepository.UpdateReminderAsync(reminder);
     }

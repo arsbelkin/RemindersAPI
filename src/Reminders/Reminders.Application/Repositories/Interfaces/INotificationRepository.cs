@@ -20,5 +20,8 @@ public interface INotificationRepository
 
     public Task DeleteNotification(Notification notification);
 
-    public Task<List<Notification>> GetNotificationsByReminder(Guid reminderId, ProcessedStatusTypes status);
+    public Task<List<Notification>> GetNotificationsByReminder(Guid reminderId,
+        ProcessedStatusTypes status);
+    
+    public Task DeleteNotificationByReminderId(Guid reminderId);
 }

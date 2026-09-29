@@ -96,4 +96,11 @@ public class NotificationRepository : INotificationRepository
 
         return res;
     }
+
+    public async Task DeleteNotificationByReminderId(Guid reminderId)
+    {
+        await _dbContext.Notifications
+            .Where(n => n.ReminderId == reminderId)
+            .ExecuteDeleteAsync();
+    }
 }
