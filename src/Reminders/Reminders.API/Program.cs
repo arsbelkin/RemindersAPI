@@ -18,7 +18,7 @@ using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("PostgresConnection");
+var postgresConnectionString = builder.Configuration.GetConnectionString("PostgresConnection");
 var redisConnectionString = builder.Configuration.GetConnectionString("RedisConnection");
 
 // Add services to the container.
@@ -31,7 +31,7 @@ builder.Services.AddProblemDetails();
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<RemindersContext>(options =>
-    options.UseNpgsql(connectionString));
+    options.UseNpgsql(postgresConnectionString));
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
 {
