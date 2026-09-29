@@ -75,12 +75,12 @@ public class Worker : BackgroundService
             //     NotificationMessage = message
             // });
 
-            notification.UpdateNotificationTime();
-            notification.IsProcessed = ProcessedStatusTypes.Processed;
+            // notification.UpdateNotificationTime();
+            // notification.IsProcessed = ProcessedStatusTypes.Processed;
         }
 
-        if (notifications.Count > 0)
-            await notificationRepository.UpdateNotificationsListAsync(notifications);
+        // if (notifications.Count > 0)
+        //     await notificationRepository.UpdateNotificationsListAsync(notifications);
     }
 
     private static TimeSpan CalculateDelay()

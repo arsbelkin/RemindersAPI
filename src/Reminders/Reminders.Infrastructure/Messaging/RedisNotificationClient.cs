@@ -18,9 +18,22 @@ public class RedisNotificationClient : IRedisNotification
 
     public async Task ProcessMessageAsync(NotificationWrapper message)
     {
-        if (message.MessageType == MessageTypes.Add)
+        switch (message.MessageType)
         {
-            await AddToQueueAsync(message);
+            case MessageTypes.Add:
+                await AddToQueueAsync(message);
+                break;
+            
+            case MessageTypes.Update:
+                await UpdateAsync(message);
+                break;
+            
+            case MessageTypes.Delete:
+                await DeleteFromQueueAsync(message);
+                break;
+            
+            default:
+                break;
         }
     }
 
@@ -35,5 +48,23 @@ public class RedisNotificationClient : IRedisNotification
         await _redis.StringSetAsync(objectKey, jsonValue, TimeSpan.FromHours(2));
         
         await _redis.SortedSetAddAsync(QueueKey, message.NotificationId.ToString(), score);
+    }
+
+    public async Task UpdateAsync(NotificationWrapper message)
+    {
+        await DeleteFromQueueAsync(message);
+        await AddToQueueAsync(message);
+    }
+    
+    public async Task DeleteFromQueueAsync(NotificationWrapper message)
+    {
+        var objectKey = $"notification:{message.NotificationId}";
+
+        var transaction = _redis.CreateTransaction();
+        
+        _ = transaction.SortedSetRemoveAsync(QueueKey, message.NotificationId.ToString());
+        _ = transaction.KeyDeleteAsync(objectKey);
+        
+        await transaction.ExecuteAsync();
     }
 }

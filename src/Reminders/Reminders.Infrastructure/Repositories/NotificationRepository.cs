@@ -24,10 +24,16 @@ public class NotificationRepository : INotificationRepository
 
     public async Task<List<Notification>> GetComingNotificationsAsync()
     {
+        var now =  DateTime.UtcNow;
+        var nextHour =  now.AddHours(1);
+        
         var res = await _dbContext.Notifications
-            .Where(n => n.IsProcessed == ProcessedStatusTypes.NotProcessed)
-            .Where(n => n.NotificationTime > DateTime.UtcNow &&
-                        n.NotificationTime <= DateTime.UtcNow.AddHours(1))
+            .Where(n => n.IsProcessed == ProcessedStatusTypes.NotProcessed && 
+                        n.NotificationTime > now &&
+                        n.NotificationTime <= nextHour)
+            .Include(n => n.Receiver)
+            .Include(n => n.Reminder)
+            .ThenInclude(r => r.Category)
             .ToListAsync();
 
         return res;

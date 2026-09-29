@@ -6,4 +6,6 @@ public interface IRedisNotification
 {
     public Task ProcessMessageAsync(NotificationWrapper message);
     public Task AddToQueueAsync(NotificationWrapper message);
+    public Task UpdateAsync(NotificationWrapper message);
+    public Task DeleteFromQueueAsync(NotificationWrapper message);
 }
