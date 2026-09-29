@@ -26,6 +26,11 @@ public class Worker : BackgroundService
 
         while (!stoppingToken.IsCancellationRequested)
         {
+            if (_logger.IsEnabled(LogLevel.Information))
+            {
+                _logger.LogInformation("ScannerWorker running at: {time}", DateTimeOffset.Now);
+            }
+            
             await Task.Delay(CalculateDelay(), stoppingToken);
 
             await DoWorkAsync(stoppingToken);
@@ -47,13 +52,9 @@ public class Worker : BackgroundService
 
         foreach (var notification in notifications)
         {
-            if (_logger.IsEnabled(LogLevel.Information))
-            {
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-            }
-
             var message = new NotificationMessageDTO
             {
+                NotificationId = notification.Id,
                 ReceiverEmail = notification.Receiver.Email,
                 CategoryTitle = notification.Reminder.Category.Title,
                 ReminderTitle = notification.Reminder.Title,
@@ -75,12 +76,12 @@ public class Worker : BackgroundService
             //     NotificationMessage = message
             // });
 
-            // notification.UpdateNotificationTime();
-            // notification.IsProcessed = ProcessedStatusTypes.Processed;
+            notification.UpdateNotificationTime();
+            notification.IsProcessed = ProcessedStatusTypes.Processed;
         }
 
-        // if (notifications.Count > 0)
-        //     await notificationRepository.UpdateNotificationsListAsync(notifications);
+        if (notifications.Count > 0)
+            await notificationRepository.UpdateNotificationsListAsync(notifications);
     }
 
     private static TimeSpan CalculateDelay()
@@ -103,7 +104,7 @@ public class Worker : BackgroundService
             now.Hour,
             now.Minute,
             now.Second
-        ).AddSeconds(10);
+        ).AddSeconds(20);
 
         return nextHour - now;
     }

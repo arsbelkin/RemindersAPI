@@ -70,6 +70,8 @@ builder.Services.AddSingleton<IRedisNotification, RedisNotificationClient>();
 
 builder.Services.AddHostedService<Reminders.DbScannerWorker.Worker>();
 
+builder.Services.AddHostedService<Reminders.NotificationSenderWorker.Worker>();
+
 
 var app = builder.Build();
 

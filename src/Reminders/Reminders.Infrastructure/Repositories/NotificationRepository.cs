@@ -78,4 +78,12 @@ public class NotificationRepository : INotificationRepository
         _dbContext.Notifications.Remove(notification);
         await _dbContext.SaveChangesAsync(CancellationToken.None);
     }
+
+    public async Task SetSentNotificationsByListIdAsync(List<Guid> notificationIds)
+    {
+        await _dbContext.Notifications
+            .Where(x => notificationIds.Contains(x.Id))
+            .ExecuteUpdateAsync(s =>
+                s.SetProperty(n => n.IsProcessed, ProcessedStatusTypes.Send));
+    }
 }

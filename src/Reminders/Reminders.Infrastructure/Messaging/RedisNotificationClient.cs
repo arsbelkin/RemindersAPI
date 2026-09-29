@@ -67,4 +67,31 @@ public class RedisNotificationClient : IRedisNotification
         
         await transaction.ExecuteAsync();
     }
+
+    public async Task<List<NotificationMessageDTO>> GetReadyNotificationsAsync(long maxUnixSeconds)
+    {
+        var readyIds = await _redis.SortedSetRangeByScoreAsync(QueueKey, stop: maxUnixSeconds);
+        var res = new List<NotificationMessageDTO>();
+
+        foreach (var idMember in readyIds)
+        {
+            var id = idMember.ToString();
+            var objectKey = $"notification:{id}";
+            
+            var jsonValue = await _redis.StringGetAsync(objectKey);
+
+            if (jsonValue.HasValue)
+            {
+                var message = JsonSerializer.Deserialize<NotificationMessageDTO>(jsonValue.ToString());
+                
+                if (message != null)
+                    res.Add(message);
+            }
+
+            await _redis.SortedSetRemoveAsync(QueueKey, id);
+            await _redis.KeyDeleteAsync(objectKey);
+        }
+
+        return res;
+    }
 }

@@ -11,6 +11,8 @@ public interface INotificationRepository
 
     public Task UpdateNotificationsListAsync(List<Notification> notifications);
     
+    public Task SetSentNotificationsByListIdAsync(List<Guid> notificationIds);
+    
     public Task<List<NotificationListDTO>> GetUserNotifications(Guid userId);
 
     public Task<Notification?> GetNotification(Guid notificationId, Guid userId);

@@ -8,4 +8,6 @@ public interface IRedisNotification
     public Task AddToQueueAsync(NotificationWrapper message);
     public Task UpdateAsync(NotificationWrapper message);
     public Task DeleteFromQueueAsync(NotificationWrapper message);
+    
+    public Task<List<NotificationMessageDTO>> GetReadyNotificationsAsync(long maxUnixSeconds);
 }
