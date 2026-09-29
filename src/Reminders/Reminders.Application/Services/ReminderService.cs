@@ -16,22 +16,17 @@ public class ReminderService : IReminderService
     private readonly IReminderRepository _reminderRepository;
     private readonly IUserRepository _userRepository;
     private readonly ICategoryRepository _categoryRepository;
-    private readonly IMapper _mapper;
-    private readonly INotificationPublisher _notificationPublisher;
 
     public ReminderService(
         IReminderRepository reminderRepository,
         IUserRepository userRepository,
         ICategoryRepository categoryRepository,
-        IMapper mapper,
-        INotificationPublisher notificationPublisher
+        IMapper mapper
         )
     {
         _reminderRepository = reminderRepository;
         _userRepository = userRepository;
         _categoryRepository = categoryRepository;
-        _mapper = mapper;
-        _notificationPublisher = notificationPublisher;
     }
 
     public async Task<Guid> CreateReminderAsync(ReminderCreateDTO dto)
@@ -111,11 +106,6 @@ public class ReminderService : IReminderService
         reminder.DueDate = dto.DueDate;
         
         await _reminderRepository.UpdateReminderAsync(reminder);
-        
-        await _notificationPublisher.SendAsync(new NotificationWrapper
-        {
-            MessageType = MessageTypes.Update
-        });
     }
 
     public async Task DeleteReminderAsync(Guid reminderId, Guid userId)

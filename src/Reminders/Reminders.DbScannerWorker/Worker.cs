@@ -38,7 +38,9 @@ public class Worker : BackgroundService
 
         var notificationRepository = scope.ServiceProvider.GetRequiredService<INotificationRepository>();
 
-        var publisher = scope.ServiceProvider.GetRequiredService<INotificationPublisher>();
+        // var publisher = scope.ServiceProvider.GetRequiredService<INotificationPublisher>();
+
+        var redis = scope.ServiceProvider.GetRequiredService<IRedisNotification>();
 
         var notifications = await notificationRepository
             .GetComingNotificationsAsync();
@@ -58,13 +60,20 @@ public class Worker : BackgroundService
                 ReminderDescription = notification.Reminder.Description,
                 NotificationTime = notification.NotificationTime
             };
-
-            await publisher.SendAsync(new NotificationWrapper
+            
+            await redis.ProcessMessageAsync(new NotificationWrapper
             {
                 MessageType = MessageTypes.Add,
                 NotificationId = notification.Id,
                 NotificationMessage = message
             });
+
+            // await publisher.SendAsync(new NotificationWrapper
+            // {
+            //     MessageType = MessageTypes.Add,
+            //     NotificationId = notification.Id,
+            //     NotificationMessage = message
+            // });
 
             notification.UpdateNotificationTime();
             notification.IsProcessed = ProcessedStatusTypes.Processed;
@@ -94,7 +103,7 @@ public class Worker : BackgroundService
             now.Hour,
             now.Minute,
             now.Second
-        ).AddMinutes(1);
+        ).AddSeconds(10);
 
         return nextHour - now;
     }

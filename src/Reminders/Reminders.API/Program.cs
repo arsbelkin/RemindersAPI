@@ -34,7 +34,12 @@ builder.Services.AddDbContext<RemindersContext>(options =>
     options.UseNpgsql(connectionString));
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
-    ConnectionMultiplexer.Connect(redisConnectionString));
+{
+    var options = ConfigurationOptions.Parse(redisConnectionString!);
+    options.AbortOnConnectFail = false;
+
+    return ConnectionMultiplexer.Connect(options);
+});
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();

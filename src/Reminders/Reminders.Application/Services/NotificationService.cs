@@ -12,17 +12,14 @@ public class NotificationService : INotificationService
 {
     private readonly IReminderRepository _reminderRepository;
     private readonly INotificationRepository _notificationRepository;
-    private readonly INotificationPublisher _notificationPublisher;
 
     public NotificationService(
         IReminderRepository reminderRepository,
-        INotificationRepository notificationRepository,
-        INotificationPublisher notificationPublisher
+        INotificationRepository notificationRepository
     )
     {
         _reminderRepository = reminderRepository;
         _notificationRepository = notificationRepository;
-        _notificationPublisher = notificationPublisher;
     }
 
     public async Task<Guid> CreateNotificationAsync(NotificationCreateDTO dto, Guid userId)
@@ -60,10 +57,5 @@ public class NotificationService : INotificationService
             throw new NotValidReminderException();
         
         await _notificationRepository.DeleteNotification(notification);
-
-        await _notificationPublisher.SendAsync(new NotificationWrapper
-        {
-            MessageType = MessageTypes.Delete
-        });
     }
 }

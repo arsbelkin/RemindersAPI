@@ -1,10 +1,8 @@
 ﻿using MapsterMapper;
-using Reminders.Application.Enums;
 using Reminders.Application.Exceptions;
 using Reminders.Application.Repositories.Interfaces;
 using Reminders.Application.Services.Interfaces;
 using Reminders.Application.TransferModels.Category;
-using Reminders.Application.TransferModels.Notification;
 using Reminders.Domain.Models;
 
 namespace Reminders.Application.Services;
@@ -14,19 +12,16 @@ public class CategoryService : ICategoryService
     private readonly ICategoryRepository _categoryRepository;
     private readonly IReminderRepository _reminderRepository;
     private readonly IMapper _mapper;
-    private readonly INotificationPublisher _notificationPublisher;
 
     public CategoryService(
         ICategoryRepository categoryRepository,
         IReminderRepository reminderRepository,
-        IMapper mapper,
-        INotificationPublisher notificationPublisher
+        IMapper mapper
     )
     {
         _categoryRepository = categoryRepository;
         _mapper = mapper;
         _reminderRepository = reminderRepository;
-        _notificationPublisher = notificationPublisher;
     }
 
     public async Task<Guid> CreateCategoryAsync(CategoryCreateDTO dto)
@@ -102,10 +97,5 @@ public class CategoryService : ICategoryService
             throw new NotValidCategoryException();
 
         await _categoryRepository.DeleteCategoryAsync(cat);
-        
-        await _notificationPublisher.SendAsync(new NotificationWrapper
-        {
-            MessageType = MessageTypes.Delete
-        });
     }
 }
