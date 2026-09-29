@@ -114,11 +114,11 @@ public class RemindersContext : DbContext
         notificationEntity.HasOne(n => n.Receiver)
             .WithMany()
             .HasForeignKey(n => n.ReceiverId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         notificationEntity.HasOne(n => n.Reminder)
             .WithMany()
             .HasForeignKey(n => n.ReminderId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
