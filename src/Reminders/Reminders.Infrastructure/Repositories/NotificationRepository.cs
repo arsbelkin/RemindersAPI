@@ -86,4 +86,14 @@ public class NotificationRepository : INotificationRepository
             .ExecuteUpdateAsync(s =>
                 s.SetProperty(n => n.IsProcessed, ProcessedStatusTypes.Send));
     }
+
+    public async Task<List<Notification>> GetNotificationsByReminder(Guid reminderId, ProcessedStatusTypes status)
+    {
+        var res = await _dbContext.Notifications
+            .Where(n => n.Reminder.Id == reminderId)
+            .Where(n => n.IsProcessed == status)
+            .ToListAsync();
+
+        return res;
+    }
 }

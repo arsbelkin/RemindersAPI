@@ -16,17 +16,22 @@ public class ReminderService : IReminderService
     private readonly IReminderRepository _reminderRepository;
     private readonly IUserRepository _userRepository;
     private readonly ICategoryRepository _categoryRepository;
+    private readonly INotificationRepository _notificationRepository;
+    private readonly IRedisNotification _redis;
 
     public ReminderService(
         IReminderRepository reminderRepository,
         IUserRepository userRepository,
         ICategoryRepository categoryRepository,
-        IMapper mapper
-        )
+        INotificationRepository notificationRepository,
+        IRedisNotification redisNotification
+    )
     {
         _reminderRepository = reminderRepository;
         _userRepository = userRepository;
         _categoryRepository = categoryRepository;
+        _notificationRepository = notificationRepository;
+        _redis = redisNotification;
     }
 
     public async Task<Guid> CreateReminderAsync(ReminderCreateDTO dto)
@@ -35,16 +40,16 @@ public class ReminderService : IReminderService
         {
             if (!EmailValidator.IsValid(email))
                 throw new NotValidEmailException(email);
-            
+
             if (!await _userRepository.CheckUserByEmailAsync(email))
                 throw new NotValidEmailException(email);
 
             if (!await _categoryRepository.CheckCategoryByIdAsync(dto.CategoryId))
                 throw new NotValidCategoryException();
         }
-        
+
         var users = await _userRepository.GetAllUsersByEmailAsync(dto.UsersEmails);
-        
+
         var reminder = new Reminder
         {
             Id = Guid.CreateVersion7(),
@@ -59,9 +64,9 @@ public class ReminderService : IReminderService
             DueDate = dto.DueDate,
             Members = users
         };
-        
+
         await _reminderRepository.CreateReminderAsync(reminder);
-        
+
         return reminder.Id;
     }
 
@@ -77,7 +82,7 @@ public class ReminderService : IReminderService
 
         if (reminderInfo == null)
             throw new NotValidReminderException();
-        
+
         return reminderInfo;
     }
 
@@ -88,65 +93,80 @@ public class ReminderService : IReminderService
     {
         var reminderQuery = _reminderRepository.CreateReminderQuery(userId, searchDto);
         var reminders = await _reminderRepository.GetRemindersByQuery(reminderQuery);
-        
+
         return reminders;
     }
 
     public async Task UpdateReminderAsync(Guid reminderId, Guid userId, ReminderUpdateDTO dto)
     {
         var reminder = await _reminderRepository.GetReminderAsync(reminderId, userId);
-        
+
         if (reminder == null)
             throw new NotValidReminderException();
-        
+
         reminder.CategoryId = dto.CategoryId;
         reminder.Title = dto.Title;
         reminder.Description = dto.Description;
         reminder.Priority = dto.Priority;
         reminder.DueDate = dto.DueDate;
         
+        var processedNotifications =
+            await _notificationRepository.GetNotificationsByReminder(reminderId, 
+                ProcessedStatusTypes.Processed);
+
+        await _redis.UpdateNotificationsListAsync(processedNotifications);
+
         await _reminderRepository.UpdateReminderAsync(reminder);
     }
 
     public async Task DeleteReminderAsync(Guid reminderId, Guid userId)
     {
         var reminder = await _reminderRepository.GetReminderAsync(reminderId, userId);
-        
+
         if (reminder == null)
             throw new NotValidReminderException();
         
-        // TODO: сделать актуализацию уведомлений
-        
+        var processedNotifications =
+            await _notificationRepository.GetNotificationsByReminder(reminderId, 
+                ProcessedStatusTypes.Processed);
+
+        foreach (var notification in processedNotifications)
+        {
+            await _redis.DeleteFromQueueAsync(new NotificationWrapper
+            {
+                MessageType = MessageTypes.Delete,
+                NotificationId = notification.Id,
+            });
+        }
+
         await _reminderRepository.DeleteReminderAsync(reminder);
     }
 
     public async Task CompleteReminderAsync(Guid reminderId, Guid userId)
     {
         var reminder = await _reminderRepository.GetReminderAsync(reminderId, userId);
-        
+
         if (reminder == null)
             throw new NotValidReminderException();
 
         reminder.IsCompleted = CompletedStatusTypes.Completed;
         reminder.CompletedTime = DateTime.UtcNow;
-        
-        // TODO: сделать актуализацию уведомлений
-        
+
+        // TODO: сделать актуализацию уведомлений -> удаление всех напоминаний
+
         await _reminderRepository.UpdateReminderAsync(reminder);
     }
 
     public async Task ReopenReminderAsync(Guid reminderId, Guid userId)
     {
         var reminder = await _reminderRepository.GetReminderAsync(reminderId, userId);
-        
+
         if (reminder == null)
             throw new NotValidReminderException();
 
         reminder.IsCompleted = CompletedStatusTypes.NotCompleted;
         reminder.CompletedTime = null;
-        
-        // TODO: сделать актуализацию уведомлений
-        
+
         await _reminderRepository.UpdateReminderAsync(reminder);
     }
 }

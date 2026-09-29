@@ -2,6 +2,7 @@
 using Reminders.Application.Enums;
 using Reminders.Application.Services.Interfaces;
 using Reminders.Application.TransferModels.Notification;
+using Reminders.Domain.Models;
 using StackExchange.Redis;
 
 namespace Reminders.Infrastructure.Messaging;
@@ -93,5 +94,28 @@ public class RedisNotificationClient : IRedisNotification
         }
 
         return res;
+    }
+
+    public async Task UpdateNotificationsListAsync(List<Notification> notifications)
+    {
+        foreach (var notification in notifications)
+        {
+            var message = new NotificationMessageDTO
+            {
+                NotificationId = notification.Id,
+                ReceiverEmail = notification.Receiver.Email,
+                CategoryTitle = notification.Reminder.Category.Title,
+                ReminderTitle = notification.Reminder.Title,
+                ReminderDescription = notification.Reminder.Description,
+                NotificationTime = notification.NotificationTime
+            };
+
+            await UpdateAsync(new NotificationWrapper
+            {
+                MessageType = MessageTypes.Update,
+                NotificationId = notification.Id,
+                NotificationMessage = message
+            });
+        }
     }
 }

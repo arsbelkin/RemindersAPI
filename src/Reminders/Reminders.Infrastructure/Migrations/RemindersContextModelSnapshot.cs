@@ -240,13 +240,13 @@ namespace Reminders.Infrastructure.Migrations
                     b.HasOne("Reminders.Domain.Models.User", "Receiver")
                         .WithMany()
                         .HasForeignKey("ReceiverId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Reminders.Domain.Models.Reminder", "Reminder")
                         .WithMany()
                         .HasForeignKey("ReminderId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Receiver");
