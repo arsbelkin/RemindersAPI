@@ -66,10 +66,6 @@ builder.Services.AddMapster();
 
 builder.Services.AddJWTAuthentication(builder.Configuration);
 
-builder.Services.AddMassTransitPublisher(builder.Configuration);
-
-builder.Services.AddScoped<INotificationPublisher, MassTransitNotificationPublisher>();
-
 builder.Services.AddSingleton<IRedisNotification, RedisNotificationClient>();
 
 builder.Services.AddScoped<IEmailSender, EmailSender>();

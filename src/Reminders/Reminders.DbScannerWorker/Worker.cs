@@ -42,9 +42,7 @@ public class Worker : BackgroundService
         using var scope = _scopeFactory.CreateScope();
 
         var notificationRepository = scope.ServiceProvider.GetRequiredService<INotificationRepository>();
-
-        // var publisher = scope.ServiceProvider.GetRequiredService<INotificationPublisher>();
-
+        
         var redis = scope.ServiceProvider.GetRequiredService<IRedisNotification>();
 
         var notifications = await notificationRepository
@@ -69,13 +67,6 @@ public class Worker : BackgroundService
                 NotificationId = notification.Id,
                 NotificationMessage = message
             });
-
-            // await publisher.SendAsync(new NotificationWrapper
-            // {
-            //     MessageType = MessageTypes.Add,
-            //     NotificationId = notification.Id,
-            //     NotificationMessage = message
-            // });
 
             notification.UpdateNotificationTime();
             notification.IsProcessed = ProcessedStatusTypes.Processed;

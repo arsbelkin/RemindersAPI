@@ -1,6 +1,5 @@
 ﻿using System.Security.Claims;
 using System.Text;
-using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -64,25 +63,6 @@ public static class DependencyInjection
                     }
                 };
             });
-        
-        return services;
-    }
-
-    public static IServiceCollection AddMassTransitPublisher(
-        this IServiceCollection services,
-        IConfiguration configuration)
-    {
-        services.AddMassTransit(x =>
-        {
-            x.UsingRabbitMq((context, cfg) =>
-            {
-                cfg.Host("localhost", "/", h =>
-                {
-                    h.Username("guest");
-                    h.Password("guest");
-                });
-            });
-        });
         
         return services;
     }
