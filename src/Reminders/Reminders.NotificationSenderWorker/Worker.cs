@@ -40,6 +40,8 @@ public class Worker : BackgroundService
         
         var notificationRepository = scope.ServiceProvider.GetRequiredService<INotificationRepository>();
         
+        var emailSenderService = scope.ServiceProvider.GetRequiredService<IEmailSender>();
+        
         var nowSeconds = DateTimeOffset.Now.ToUnixTimeSeconds();
         
         var readyMessages = await redis.GetReadyNotificationsAsync(nowSeconds);
@@ -50,6 +52,8 @@ public class Worker : BackgroundService
             {
                 _logger.LogInformation($"{readyMessage.ReceiverEmail}");
             }
+
+            await emailSenderService.SendEmailAsync(readyMessage);
         }
 
         if (readyMessages.Count > 0)

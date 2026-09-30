@@ -72,6 +72,8 @@ builder.Services.AddScoped<INotificationPublisher, MassTransitNotificationPublis
 
 builder.Services.AddSingleton<IRedisNotification, RedisNotificationClient>();
 
+builder.Services.AddScoped<IEmailSender, EmailSender>();
+
 builder.Services.AddHostedService<Reminders.DbScannerWorker.Worker>();
 
 builder.Services.AddHostedService<Reminders.NotificationSenderWorker.Worker>();
