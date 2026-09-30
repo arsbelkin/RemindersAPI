@@ -104,6 +104,7 @@ public class RedisNotificationClient : IRedisNotification
             {
                 NotificationId = notification.Id,
                 ReceiverEmail = notification.Receiver.Email,
+                ReceiverUsername = notification.Receiver.Username,
                 CategoryTitle = notification.Reminder.Category.Title,
                 ReminderTitle = notification.Reminder.Title,
                 ReminderDescription = notification.Reminder.Description,
