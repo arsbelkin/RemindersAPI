@@ -44,18 +44,18 @@ public class NotificationService : INotificationService
 
     public async Task<List<NotificationListDTO>> GetUserNotifications(Guid userId)
     {
-        var notifications = await _notificationRepository.GetUserNotifications(userId);
+        var notifications = await _notificationRepository.GetUserNotificationsAsync(userId);
 
         return notifications;
     }
 
     public async Task DeleteNotification(Guid notificationId, Guid userId)
     {
-        var notification = await _notificationRepository.GetNotification(notificationId, userId);
+        var notification = await _notificationRepository.GetNotificationAsync(notificationId, userId);
         
         if (notification == null)
             throw new NotValidReminderException();
         
-        await _notificationRepository.DeleteNotification(notification);
+        await _notificationRepository.DeleteNotificationAsync(notification);
     }
 }

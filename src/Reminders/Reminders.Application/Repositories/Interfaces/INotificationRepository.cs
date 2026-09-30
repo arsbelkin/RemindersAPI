@@ -14,14 +14,19 @@ public interface INotificationRepository
 
     public Task SetSentNotificationsByListIdAsync(List<Guid> notificationIds);
 
-    public Task<List<NotificationListDTO>> GetUserNotifications(Guid userId);
+    public Task<List<NotificationListDTO>> GetUserNotificationsAsync(Guid userId);
 
-    public Task<Notification?> GetNotification(Guid notificationId, Guid userId);
+    public Task<Notification?> GetNotificationAsync(Guid notificationId, Guid userId);
 
-    public Task DeleteNotification(Notification notification);
+    public Task DeleteNotificationAsync(Notification notification);
 
-    public Task<List<Notification>> GetNotificationsByReminder(Guid reminderId,
+    public Task<List<Notification>> GetNotificationsByReminderAsync(Guid reminderId,
         ProcessedStatusTypes status);
     
-    public Task DeleteNotificationByReminderId(Guid reminderId);
+    public Task DeleteNotificationByReminderIdAsync(Guid reminderId);
+    
+    public Task<List<Notification>> GetNotificationsByCategoryAsync(Guid categoryId,
+        ProcessedStatusTypes status);
+    
+    public Task DeleteNotificationByCategoryIdAsync(Guid categoryId);
 }

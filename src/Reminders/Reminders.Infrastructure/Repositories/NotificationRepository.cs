@@ -24,11 +24,11 @@ public class NotificationRepository : INotificationRepository
 
     public async Task<List<Notification>> GetComingNotificationsAsync()
     {
-        var now =  DateTime.UtcNow;
-        var nextHour =  now.AddHours(1);
-        
+        var now = DateTime.UtcNow;
+        var nextHour = now.AddHours(1);
+
         var res = await _dbContext.Notifications
-            .Where(n => n.IsProcessed == ProcessedStatusTypes.NotProcessed && 
+            .Where(n => n.IsProcessed == ProcessedStatusTypes.NotProcessed &&
                         n.NotificationTime > now &&
                         n.NotificationTime <= nextHour)
             .Include(n => n.Receiver)
@@ -45,11 +45,11 @@ public class NotificationRepository : INotificationRepository
         {
             _dbContext.Notifications.Update(notification);
         }
-        
+
         await _dbContext.SaveChangesAsync();
     }
-    
-    public async Task<List<NotificationListDTO>> GetUserNotifications(Guid userId)
+
+    public async Task<List<NotificationListDTO>> GetUserNotificationsAsync(Guid userId)
     {
         var res = await _dbContext.Notifications
             .Where(x => x.Receiver.Id == userId)
@@ -65,7 +65,7 @@ public class NotificationRepository : INotificationRepository
         return res;
     }
 
-    public async Task<Notification?> GetNotification(Guid notificationId, Guid userId)
+    public async Task<Notification?> GetNotificationAsync(Guid notificationId, Guid userId)
     {
         var res = await _dbContext.Notifications
             .FirstOrDefaultAsync(x => x.Id == notificationId && x.Receiver.Id == userId);
@@ -73,7 +73,7 @@ public class NotificationRepository : INotificationRepository
         return res;
     }
 
-    public async Task DeleteNotification(Notification notification)
+    public async Task DeleteNotificationAsync(Notification notification)
     {
         _dbContext.Notifications.Remove(notification);
         await _dbContext.SaveChangesAsync(CancellationToken.None);
@@ -87,7 +87,7 @@ public class NotificationRepository : INotificationRepository
                 s.SetProperty(n => n.IsProcessed, ProcessedStatusTypes.Send));
     }
 
-    public async Task<List<Notification>> GetNotificationsByReminder(Guid reminderId, ProcessedStatusTypes status)
+    public async Task<List<Notification>> GetNotificationsByReminderAsync(Guid reminderId, ProcessedStatusTypes status)
     {
         var res = await _dbContext.Notifications
             .Where(n => n.Reminder.Id == reminderId)
@@ -97,10 +97,28 @@ public class NotificationRepository : INotificationRepository
         return res;
     }
 
-    public async Task DeleteNotificationByReminderId(Guid reminderId)
+    public async Task DeleteNotificationByReminderIdAsync(Guid reminderId)
     {
         await _dbContext.Notifications
             .Where(n => n.ReminderId == reminderId)
+            .ExecuteDeleteAsync();
+    }
+
+    public async Task<List<Notification>> GetNotificationsByCategoryAsync(Guid categoryId,
+        ProcessedStatusTypes status)
+    {
+        var res = await _dbContext.Notifications
+            .Where(n => n.Reminder.CategoryId == categoryId)
+            .Where(n => n.IsProcessed == status)
+            .ToListAsync();
+
+        return res;
+    }
+
+    public async Task DeleteNotificationByCategoryIdAsync(Guid categoryId)
+    {
+        await _dbContext.Notifications
+            .Where(n => n.Reminder.CategoryId == categoryId)
             .ExecuteDeleteAsync();
     }
 }

@@ -111,7 +111,7 @@ public class ReminderService : IReminderService
         reminder.DueDate = dto.DueDate;
         
         var processedNotifications =
-            await _notificationRepository.GetNotificationsByReminder(reminderId, 
+            await _notificationRepository.GetNotificationsByReminderAsync(reminderId, 
                 ProcessedStatusTypes.Processed);
 
         await _redis.UpdateNotificationsListAsync(processedNotifications);
@@ -127,7 +127,7 @@ public class ReminderService : IReminderService
             throw new NotValidReminderException();
         
         var processedNotifications =
-            await _notificationRepository.GetNotificationsByReminder(reminderId, 
+            await _notificationRepository.GetNotificationsByReminderAsync(reminderId, 
                 ProcessedStatusTypes.Processed);
 
         foreach (var notification in processedNotifications)
@@ -153,7 +153,7 @@ public class ReminderService : IReminderService
         reminder.CompletedTime = DateTime.UtcNow;
 
         var processedNotifications =
-            await _notificationRepository.GetNotificationsByReminder(reminderId, 
+            await _notificationRepository.GetNotificationsByReminderAsync(reminderId, 
                 ProcessedStatusTypes.Processed);
 
         foreach (var notification in processedNotifications)
@@ -165,7 +165,7 @@ public class ReminderService : IReminderService
             });
         }
         
-        await _notificationRepository.DeleteNotificationByReminderId(reminderId);
+        await _notificationRepository.DeleteNotificationByReminderIdAsync(reminderId);
 
         await _reminderRepository.UpdateReminderAsync(reminder);
     }

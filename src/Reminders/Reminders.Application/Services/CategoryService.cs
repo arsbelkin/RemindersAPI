@@ -1,8 +1,11 @@
 ﻿using MapsterMapper;
+using Reminders.Application.Enums;
 using Reminders.Application.Exceptions;
 using Reminders.Application.Repositories.Interfaces;
 using Reminders.Application.Services.Interfaces;
 using Reminders.Application.TransferModels.Category;
+using Reminders.Application.TransferModels.Notification;
+using Reminders.Domain.Enums;
 using Reminders.Domain.Models;
 
 namespace Reminders.Application.Services;
@@ -11,17 +14,23 @@ public class CategoryService : ICategoryService
 {
     private readonly ICategoryRepository _categoryRepository;
     private readonly IReminderRepository _reminderRepository;
+    private readonly INotificationRepository _notificationRepository;
     private readonly IMapper _mapper;
+    private readonly IRedisNotification _redis;
 
     public CategoryService(
         ICategoryRepository categoryRepository,
         IReminderRepository reminderRepository,
-        IMapper mapper
+        IMapper mapper,
+        INotificationRepository notificationRepository,
+        IRedisNotification redis
     )
     {
         _categoryRepository = categoryRepository;
         _mapper = mapper;
         _reminderRepository = reminderRepository;
+        _notificationRepository = notificationRepository;
+        _redis = redis;
     }
 
     public async Task<Guid> CreateCategoryAsync(CategoryCreateDTO dto)
@@ -82,8 +91,14 @@ public class CategoryService : ICategoryService
             cat.Title = dto.Title;
 
         cat.Description = dto.Description;
-
+        
         await _categoryRepository.UpdateCategoryAsync(cat);
+        
+        var processedNotifications =
+            await _notificationRepository.GetNotificationsByCategoryAsync(cat.Id, 
+                ProcessedStatusTypes.Processed);
+
+        await _redis.UpdateNotificationsListAsync(processedNotifications);
     }
 
     public async Task DeleteCategoryAsync(CategoryDeleteDTO dto)
@@ -95,6 +110,21 @@ public class CategoryService : ICategoryService
 
         if (dto.CreatorId != cat.CreatorId)
             throw new NotValidCategoryException();
+        
+        var processedNotifications =
+            await _notificationRepository.GetNotificationsByCategoryAsync(cat.Id, 
+                ProcessedStatusTypes.Processed);
+        
+        foreach (var notification in processedNotifications)
+        {
+            await _redis.DeleteFromQueueAsync(new NotificationWrapper
+            {
+                MessageType = MessageTypes.Delete,
+                NotificationId = notification.Id,
+            });
+        }
+
+        await _notificationRepository.DeleteNotificationByCategoryIdAsync(cat.Id);
 
         await _categoryRepository.DeleteCategoryAsync(cat);
     }
