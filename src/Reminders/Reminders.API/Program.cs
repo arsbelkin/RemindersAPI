@@ -15,6 +15,8 @@ using Reminders.Application.Common;
 using Reminders.Infrastructure.Messaging;
 using StackExchange.Redis;
 
+using Reminders.Application.Configurations;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +42,8 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
 
     return ConnectionMultiplexer.Connect(options);
 });
+
+builder.Services.Configure<SmtpYandexOptions>(builder.Configuration.GetSection("SmtpYandex"));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
