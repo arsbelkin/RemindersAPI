@@ -132,7 +132,7 @@ public class ReminderService : IReminderService
 
         foreach (var notification in processedNotifications)
         {
-            await _redis.DeleteFromQueueAsync(new NotificationWrapper
+            await _redis.ProcessMessageAsync(new NotificationWrapper
             {
                 MessageType = MessageTypes.Delete,
                 NotificationId = notification.Id,
@@ -158,7 +158,7 @@ public class ReminderService : IReminderService
 
         foreach (var notification in processedNotifications)
         {
-            await _redis.DeleteFromQueueAsync(new NotificationWrapper
+            await _redis.ProcessMessageAsync(new NotificationWrapper
             {
                 MessageType = MessageTypes.Delete,
                 NotificationId = notification.Id,

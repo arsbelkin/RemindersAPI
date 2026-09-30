@@ -117,7 +117,7 @@ public class CategoryService : ICategoryService
         
         foreach (var notification in processedNotifications)
         {
-            await _redis.DeleteFromQueueAsync(new NotificationWrapper
+            await _redis.ProcessMessageAsync(new NotificationWrapper
             {
                 MessageType = MessageTypes.Delete,
                 NotificationId = notification.Id,
