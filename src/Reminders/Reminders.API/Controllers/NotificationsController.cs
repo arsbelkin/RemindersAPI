@@ -31,7 +31,7 @@ public class NotificationsController : Controller
     public async Task<ActionResult<List<NotificationListDTO>>> GetUserNotifications()
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var notifications = await _notificationService.GetUserNotifications(userId);
+        var notifications = await _notificationService.GetUserNotificationsAsync(userId);
         
         return Ok(notifications);
     }
@@ -40,7 +40,7 @@ public class NotificationsController : Controller
     public async Task<ActionResult> DeleteNotification(Guid notificationId)
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        await _notificationService.DeleteNotification(notificationId, userId);
+        await _notificationService.DeleteNotificationAsync(notificationId, userId);
         
         return Ok(new { message = "Notification deleted successfully" });
     }

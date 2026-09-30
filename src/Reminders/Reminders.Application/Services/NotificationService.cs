@@ -12,14 +12,17 @@ public class NotificationService : INotificationService
 {
     private readonly IReminderRepository _reminderRepository;
     private readonly INotificationRepository _notificationRepository;
+    private readonly IRedisNotification _redis;
 
     public NotificationService(
         IReminderRepository reminderRepository,
-        INotificationRepository notificationRepository
+        INotificationRepository notificationRepository,
+        IRedisNotification redis
     )
     {
         _reminderRepository = reminderRepository;
         _notificationRepository = notificationRepository;
+        _redis = redis;
     }
 
     public async Task<Guid> CreateNotificationAsync(NotificationCreateDTO dto, Guid userId)
@@ -42,19 +45,25 @@ public class NotificationService : INotificationService
         return notification.Id;
     }
 
-    public async Task<List<NotificationListDTO>> GetUserNotifications(Guid userId)
+    public async Task<List<NotificationListDTO>> GetUserNotificationsAsync(Guid userId)
     {
         var notifications = await _notificationRepository.GetUserNotificationsAsync(userId);
 
         return notifications;
     }
 
-    public async Task DeleteNotification(Guid notificationId, Guid userId)
+    public async Task DeleteNotificationAsync(Guid notificationId, Guid userId)
     {
         var notification = await _notificationRepository.GetNotificationAsync(notificationId, userId);
         
         if (notification == null)
             throw new NotValidReminderException();
+
+        await _redis.ProcessMessageAsync(new NotificationWrapper
+        {
+            NotificationId = notification.Id,
+            MessageType = MessageTypes.Add
+        });
         
         await _notificationRepository.DeleteNotificationAsync(notification);
     }

@@ -56,8 +56,11 @@ public class NotificationRepository : INotificationRepository
             .Select(x => new NotificationListDTO
             {
                 Id = x.Id,
+                CategoryId = x.Reminder.CategoryId,
+                CategoryTitle =  x.Reminder.Category.Title,
                 ReminderId = x.ReminderId,
                 ReminderTitle = x.Reminder.Title,
+                ReminderDescription =  x.Reminder.Description,
                 NotificationTime = x.NotificationTime,
                 Recurrency = x.Recurrency
             }).ToListAsync();
