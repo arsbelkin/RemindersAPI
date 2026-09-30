@@ -11,19 +11,6 @@ services:
     volumes:
       - postgresDataVolume:/var/lib/postgresql
 
-  reminders-rabbitmq:
-    image: rabbitmq:4-management
-    container_name: reminders-rabbitmq
-    restart: unless-stopped
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
-
   redis:
     image: redis:7.2-alpine
     container_name: redis_scheduler
@@ -42,6 +29,5 @@ services:
 
 volumes:
   postgresDataVolume:
-  rabbitmq_data:
   redis_data:
     driver: local
