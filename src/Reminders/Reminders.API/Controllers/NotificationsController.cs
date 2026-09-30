@@ -44,4 +44,13 @@ public class NotificationsController : Controller
         
         return Ok(new { message = "Notification deleted successfully" });
     }
+
+    [HttpPatch("{notificationId:guid}")]
+    public async Task<ActionResult> UpdateNotification(Guid notificationId, [FromBody] NotificationUpdateDTO dto)
+    {
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        await _notificationService.UpdateNotificationAsync(notificationId, dto, userId);
+        
+        return Ok(new { message = "Notification updated successfully" });
+    }
 }

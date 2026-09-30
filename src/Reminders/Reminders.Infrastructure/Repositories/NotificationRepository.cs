@@ -71,6 +71,9 @@ public class NotificationRepository : INotificationRepository
     public async Task<Notification?> GetNotificationAsync(Guid notificationId, Guid userId)
     {
         var res = await _dbContext.Notifications
+            .Include(x => x.Receiver)
+            .Include(x => x.Reminder)
+            .ThenInclude(r => r.Category)
             .FirstOrDefaultAsync(x => x.Id == notificationId && x.Receiver.Id == userId);
 
         return res;
@@ -82,12 +85,12 @@ public class NotificationRepository : INotificationRepository
         await _dbContext.SaveChangesAsync(CancellationToken.None);
     }
 
-    public async Task SetSentNotificationsByListIdAsync(List<Guid> notificationIds)
+    public async Task SetNotProcessedNotificationsByListIdAsync(List<Guid> notificationIds)
     {
         await _dbContext.Notifications
             .Where(x => notificationIds.Contains(x.Id))
             .ExecuteUpdateAsync(s =>
-                s.SetProperty(n => n.IsProcessed, ProcessedStatusTypes.Send));
+                s.SetProperty(n => n.IsProcessed, ProcessedStatusTypes.NotProcessed));
     }
 
     public async Task<List<Notification>> GetNotificationsByReminderAsync(Guid reminderId, ProcessedStatusTypes status)
@@ -123,5 +126,11 @@ public class NotificationRepository : INotificationRepository
         await _dbContext.Notifications
             .Where(n => n.Reminder.CategoryId == categoryId)
             .ExecuteDeleteAsync();
+    }
+
+    public async Task UpdateNotificationAsync(Notification notification)
+    {
+        _dbContext.Notifications.Update(notification);
+        await _dbContext.SaveChangesAsync();
     }
 }

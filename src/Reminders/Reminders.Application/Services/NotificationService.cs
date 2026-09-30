@@ -39,9 +39,46 @@ public class NotificationService : INotificationService
             NotificationTime = dto.NotificationTime,
             Recurrency = dto.Recurrency
         };
-
+        
         await _notificationRepository.CreateNotificationAsync(notification);
+        
+        var now = DateTime.Now;
 
+        var nextHour = new DateTime(
+            now.Year,
+            now.Month,
+            now.Day,
+            now.Hour,
+            now.Minute,
+            now.Second
+        ).AddSeconds(20);
+
+        if (nextHour <= notification.NotificationTime.AddHours(1))
+        {
+            var ntf =  await _notificationRepository.GetNotificationAsync(notification.Id, userId);
+        
+            if  (ntf == null)
+                throw new NotValidNotificationException();
+            
+            var message = new NotificationMessageDTO
+            {
+                NotificationId = ntf.Id,
+                ReceiverEmail = ntf.Receiver.Email,
+                ReceiverUsername = ntf.Receiver.Username,
+                CategoryTitle = ntf.Reminder.Category.Title,
+                ReminderTitle = ntf.Reminder.Title,
+                ReminderDescription = ntf.Reminder.Description,
+                NotificationTime = ntf.NotificationTime
+            };
+
+            await _redis.ProcessMessageAsync(new NotificationWrapper
+            {
+                NotificationId = ntf.Id,
+                MessageType = MessageTypes.Add,
+                NotificationMessage = message
+            });
+        }
+        
         return notification.Id;
     }
 
@@ -55,7 +92,7 @@ public class NotificationService : INotificationService
     public async Task DeleteNotificationAsync(Guid notificationId, Guid userId)
     {
         var notification = await _notificationRepository.GetNotificationAsync(notificationId, userId);
-        
+
         if (notification == null)
             throw new NotValidReminderException();
 
@@ -64,7 +101,52 @@ public class NotificationService : INotificationService
             NotificationId = notification.Id,
             MessageType = MessageTypes.Add
         });
-        
+
         await _notificationRepository.DeleteNotificationAsync(notification);
+    }
+
+    public async Task UpdateNotificationAsync(Guid notificationId, NotificationUpdateDTO dto, Guid userId)
+    {
+        var notification = await _notificationRepository.GetNotificationAsync(notificationId, userId);
+
+        if (notification == null)
+            throw new NotValidReminderException();
+
+        notification.NotificationTime = dto.NotificationTime;
+        notification.Recurrency = dto.Recurrency;
+        
+        var now = DateTime.Now;
+
+        var nextHour = new DateTime(
+            now.Year,
+            now.Month,
+            now.Day,
+            now.Hour,
+            now.Minute,
+            now.Second
+        ).AddSeconds(20);
+
+        if (nextHour <= notification.NotificationTime.AddHours(1))
+        {
+            var message = new NotificationMessageDTO
+            {
+                NotificationId = notification.Id,
+                ReceiverEmail = notification.Receiver.Email,
+                ReceiverUsername = notification.Receiver.Username,
+                CategoryTitle = notification.Reminder.Category.Title,
+                ReminderTitle = notification.Reminder.Title,
+                ReminderDescription = notification.Reminder.Description,
+                NotificationTime = notification.NotificationTime
+            };
+
+            await _redis.ProcessMessageAsync(new NotificationWrapper
+            {
+                NotificationId = notification.Id,
+                MessageType = MessageTypes.Update,
+                NotificationMessage = message
+            });
+        }
+
+        await _notificationRepository.UpdateNotificationAsync(notification);
     }
 }

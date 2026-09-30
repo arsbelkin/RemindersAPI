@@ -12,7 +12,7 @@ public interface INotificationRepository
 
     public Task UpdateNotificationsListAsync(List<Notification> notifications);
 
-    public Task SetSentNotificationsByListIdAsync(List<Guid> notificationIds);
+    public Task SetNotProcessedNotificationsByListIdAsync(List<Guid> notificationIds);
 
     public Task<List<NotificationListDTO>> GetUserNotificationsAsync(Guid userId);
 
@@ -29,4 +29,6 @@ public interface INotificationRepository
         ProcessedStatusTypes status);
     
     public Task DeleteNotificationByCategoryIdAsync(Guid categoryId);
+    
+    public Task UpdateNotificationAsync(Notification notification);
 }

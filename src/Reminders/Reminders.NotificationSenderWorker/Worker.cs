@@ -59,8 +59,8 @@ public class Worker : BackgroundService
         if (readyMessages.Count > 0)
         {
             var notificationsId = readyMessages.Select(n => n.NotificationId).ToList();
-        
-            await notificationRepository.SetSentNotificationsByListIdAsync(notificationsId);
+            
+            await notificationRepository.SetNotProcessedNotificationsByListIdAsync(notificationsId);
         }
     }
 }
