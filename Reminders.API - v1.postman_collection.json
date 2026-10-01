@@ -1,0 +1,1663 @@
+{
+  "info": {
+    "_postman_id": "a1e4a999-69fc-4160-af85-87e09fd9f213",
+    "name": "Reminders.API | v1",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "29497916",
+    "_collection_link": "https://go.postman.co/collection/29497916-a1e4a999-69fc-4160-af85-87e09fd9f213?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "v1",
+          "item": [
+            {
+              "name": "Admin",
+              "item": [
+                {
+                  "name": "report",
+                  "item": [
+                    {
+                      "name": "/api/v1/Admin/report",
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{X-Access-Token}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/plain"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/Admin/report",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "Admin",
+                            "report"
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "text/plain"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/Admin/report",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "Admin",
+                                "report"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "[\n  {\n    \"userId\": \"39a98570-0df5-bad5-dce0-b6e9902eaaa6\",\n    \"userName\": \"string\",\n    \"email\": \"string\",\n    \"numberOfReminders\": \"631666\",\n    \"numberOfCompletedReminders\": \"-5785\"\n  },\n  {\n    \"userId\": \"9ed3d532-be22-7f3d-f94c-8e0f1f345e5e\",\n    \"userName\": \"string\",\n    \"email\": \"string\",\n    \"numberOfReminders\": \"610144\",\n    \"numberOfCompletedReminders\": \"-561\"\n  }\n]"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Auth",
+              "item": [
+                {
+                  "name": "register",
+                  "item": [
+                    {
+                      "name": "/api/v1/Auth/register",
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "text/plain"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"username\": \"string\",\n  \"email\": \"string\",\n  \"password\": \"string\",\n  \"passwordVerify\": \"string\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/Auth/register",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "Auth",
+                            "register"
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "text/plain"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"username\": \"string\",\n  \"email\": \"string\",\n  \"password\": \"string\",\n  \"passwordVerify\": \"string\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/Auth/register",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "Auth",
+                                "register"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "login",
+                  "item": [
+                    {
+                      "name": "/api/v1/Auth/login",
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "text/plain"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n    \"inputString\": \"arsik\",\n    \"password\": \"12345\"\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/Auth/login",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "Auth",
+                            "login"
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "text/plain"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"inputString\": \"string\",\n  \"password\": \"string\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/Auth/login",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "Auth",
+                                "login"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "string"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "logout",
+                  "item": [
+                    {
+                      "name": "/api/v1/Auth/logout",
+                      "request": {
+                        "method": "POST",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/Auth/logout",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "Auth",
+                            "logout"
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/Auth/logout",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "Auth",
+                                "logout"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "body": ""
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Categories",
+              "item": [
+                {
+                  "name": "{categoryId}",
+                  "item": [
+                    {
+                      "name": "/api/v1/Categories/:categoryId",
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/plain"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/Categories/:categoryId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "Categories",
+                            ":categoryId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "categoryId",
+                              "value": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "text/plain"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/Categories/:categoryId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "Categories",
+                                ":categoryId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "categoryId",
+                                  "value": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"id\": \"56cce8ef-eccb-eda6-8f04-1dfd577668e6\",\n  \"creatorId\": \"e0cd3301-ca5c-ae25-a930-c652dcdae81d\",\n  \"creatorEmail\": \"string\",\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"createdTime\": \"1976-07-11T05:37:57.385Z\"\n}"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "/api/v1/Categories/:categoryId",
+                      "request": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/Categories/:categoryId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "Categories",
+                            ":categoryId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "categoryId",
+                              "value": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/Categories/:categoryId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "Categories",
+                                ":categoryId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "categoryId",
+                                  "value": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "body": ""
+                        }
+                      ]
+                    },
+                    {
+                      "name": "/api/v1/Categories/:categoryId",
+                      "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/Categories/:categoryId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "Categories",
+                            ":categoryId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "categoryId",
+                              "value": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/Categories/:categoryId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "Categories",
+                                ":categoryId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "categoryId",
+                                  "value": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "body": ""
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "/api/v1/Categories",
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "text/plain"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v1/Categories",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "Categories"
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "text/plain"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/Categories",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "Categories"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                    }
+                  ]
+                },
+                {
+                  "name": "/api/v1/Categories",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{X-Access-Token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/plain"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v1/Categories",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "Categories"
+                      ],
+                      "query": [
+                        {
+                          "key": "categoryName",
+                          "value": "string",
+                          "disabled": true
+                        },
+                        {
+                          "key": "categoryId",
+                          "value": "4766b0c1-4fc6-074b-97ba-62a6a1150c68",
+                          "disabled": true
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/plain"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/Categories?categoryName=string&categoryId=4766b0c1-4fc6-074b-97ba-62a6a1150c68",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "Categories"
+                          ],
+                          "query": [
+                            {
+                              "key": "categoryName",
+                              "value": "string"
+                            },
+                            {
+                              "key": "categoryId",
+                              "value": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "[\n  {\n    \"id\": \"e34a3ede-c967-7242-f82d-e0913c1faf6e\",\n    \"title\": \"string\"\n  },\n  {\n    \"id\": \"a7355faa-ec06-3365-0a74-5452204515b1\",\n    \"title\": \"string\"\n  }\n]"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Notifications",
+              "item": [
+                {
+                  "name": "{notificationId}",
+                  "item": [
+                    {
+                      "name": "/api/v1/Notifications/:notificationId",
+                      "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/Notifications/:notificationId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "Notifications",
+                            ":notificationId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "notificationId",
+                              "value": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/Notifications/:notificationId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "Notifications",
+                                ":notificationId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "notificationId",
+                                  "value": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "body": ""
+                        }
+                      ]
+                    },
+                    {
+                      "name": "/api/v1/Notifications/:notificationId",
+                      "request": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"notificationTime\": \"1952-05-25T04:39:44.162Z\",\n  \"recurrency\": 1671\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/Notifications/:notificationId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "Notifications",
+                            ":notificationId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "notificationId",
+                              "value": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"notificationTime\": \"1952-05-25T04:39:44.162Z\",\n  \"recurrency\": 1671\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/Notifications/:notificationId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "Notifications",
+                                ":notificationId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "notificationId",
+                                  "value": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "body": ""
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "/api/v1/Notifications",
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "text/plain"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"reminderId\": \"1016ff58-42b7-3169-f9e5-94c9d1e9c5c9\",\n  \"notificationTime\": \"1954-01-02T10:28:22.122Z\",\n  \"recurrency\": 6198\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v1/Notifications",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "Notifications"
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "text/plain"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"reminderId\": \"1016ff58-42b7-3169-f9e5-94c9d1e9c5c9\",\n  \"notificationTime\": \"1954-01-02T10:28:22.122Z\",\n  \"recurrency\": 6198\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/Notifications",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "Notifications"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                    }
+                  ]
+                },
+                {
+                  "name": "/api/v1/Notifications",
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/plain"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v1/Notifications",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "Notifications"
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/plain"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/Notifications",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "Notifications"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "[\n  {\n    \"id\": \"5381fda6-127e-4c1a-aee3-8ff80b252001\",\n    \"categoryId\": \"3e646e84-e1ce-f3c2-7051-b61a2bb89be7\",\n    \"categoryTitle\": \"string\",\n    \"reminderId\": \"cb37c7e3-d47b-2757-d8fb-09c30a3379a9\",\n    \"reminderTitle\": \"string\",\n    \"reminderDescription\": null,\n    \"notificationTime\": \"2008-07-08T04:42:34.875Z\",\n    \"recurrency\": 6241\n  },\n  {\n    \"id\": \"1d78cb26-2137-4dae-e4d9-c66affbf0aed\",\n    \"categoryId\": \"1f3e7c44-8857-6127-1f35-6e45f38992cc\",\n    \"categoryTitle\": \"string\",\n    \"reminderId\": \"d9502830-40a2-c644-7da0-0ba9c3e065f1\",\n    \"reminderTitle\": \"string\",\n    \"reminderDescription\": null,\n    \"notificationTime\": \"1954-05-16T22:58:46.702Z\",\n    \"recurrency\": 5230\n  }\n]"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Reminders",
+              "item": [
+                {
+                  "name": "search",
+                  "item": [
+                    {
+                      "name": "/api/v1/Reminders/search",
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "text/plain"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"page\": \"38419794\",\n  \"pageSize\": \"-0\",\n  \"searchText\": null,\n  \"categoryIds\": [\n    \"079acd59-9b6c-d74c-ed49-53d3bcf5d43e\",\n    \"cfeb1b7f-09fb-cdb4-6a95-4b428f4414d5\"\n  ],\n  \"priorityTypes\": [\n    1003,\n    8300\n  ],\n  \"fromDate\": \"2013-09-17T11:07:00.250Z\",\n  \"toDate\": \"2010-07-09T23:25:09.291Z\",\n  \"completedStatus\": 2171\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/Reminders/search",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "Reminders",
+                            "search"
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "text/plain"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"page\": \"38419794\",\n  \"pageSize\": \"-0\",\n  \"searchText\": null,\n  \"categoryIds\": [\n    \"079acd59-9b6c-d74c-ed49-53d3bcf5d43e\",\n    \"cfeb1b7f-09fb-cdb4-6a95-4b428f4414d5\"\n  ],\n  \"priorityTypes\": [\n    1003,\n    8300\n  ],\n  \"fromDate\": \"2013-09-17T11:07:00.250Z\",\n  \"toDate\": \"2010-07-09T23:25:09.291Z\",\n  \"completedStatus\": 2171\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/Reminders/search",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "Reminders",
+                                "search"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "[\n  {\n    \"id\": \"411ea8ee-c7ca-9917-cbdd-10c02a381d50\",\n    \"categoryId\": \"6b59a6cc-1ed4-358c-7d45-8c75e4f79591\",\n    \"categoryName\": \"string\",\n    \"title\": \"string\",\n    \"priority\": 1430,\n    \"isCompleted\": 7759\n  },\n  {\n    \"id\": \"544984e3-b5c0-85b9-e01d-4e589dc98f49\",\n    \"categoryId\": \"277f3f52-8b19-50af-b93e-6ee0bd945ee8\",\n    \"categoryName\": \"string\",\n    \"title\": \"string\",\n    \"priority\": 7427,\n    \"isCompleted\": 7861\n  }\n]"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "{reminderId}",
+                  "item": [
+                    {
+                      "name": "complete",
+                      "item": [
+                        {
+                          "name": "/api/v1/Reminders/:reminderId/complete",
+                          "request": {
+                            "method": "POST",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/Reminders/:reminderId/complete",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "Reminders",
+                                ":reminderId",
+                                "complete"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "reminderId",
+                                  "value": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                                }
+                              ]
+                            }
+                          },
+                          "response": [
+                            {
+                              "name": "OK",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/Reminders/:reminderId/complete",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "Reminders",
+                                    ":reminderId",
+                                    "complete"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "reminderId",
+                                      "value": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "body": ""
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "reopen",
+                      "item": [
+                        {
+                          "name": "/api/v1/Reminders/:reminderId/reopen",
+                          "request": {
+                            "method": "POST",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/Reminders/:reminderId/reopen",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "Reminders",
+                                ":reminderId",
+                                "reopen"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "reminderId",
+                                  "value": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                                }
+                              ]
+                            }
+                          },
+                          "response": [
+                            {
+                              "name": "OK",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/Reminders/:reminderId/reopen",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "Reminders",
+                                    ":reminderId",
+                                    "reopen"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "reminderId",
+                                      "value": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "body": ""
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "/api/v1/Reminders/:reminderId",
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/plain"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/Reminders/:reminderId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "Reminders",
+                            ":reminderId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reminderId",
+                              "value": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "text/plain"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/Reminders/:reminderId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "Reminders",
+                                ":reminderId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "reminderId",
+                                  "value": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"id\": \"a5aa1fb5-f277-efea-9c9a-74558c2badf6\",\n  \"creatorId\": \"19ac01b8-6958-0df7-4189-272978c92275\",\n  \"categoryId\": \"1764e1f1-2748-d2a6-dbeb-af116a2383eb\",\n  \"categoryName\": \"string\",\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"createdTime\": \"1968-03-11T05:41:06.446Z\",\n  \"priority\": 9681,\n  \"isCompleted\": 5261,\n  \"completedTime\": \"2006-01-30T00:27:51.646Z\",\n  \"dueDate\": null,\n  \"memberEmails\": [\n    \"string\",\n    \"string\"\n  ]\n}"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "/api/v1/Reminders/:reminderId",
+                      "request": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"categoryId\": \"ab721f35-db45-484b-2a5f-1a21d02fabfa\",\n  \"title\": \"string\",\n  \"description\": null,\n  \"priority\": 4923,\n  \"dueDate\": null\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/Reminders/:reminderId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "Reminders",
+                            ":reminderId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reminderId",
+                              "value": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"categoryId\": \"ab721f35-db45-484b-2a5f-1a21d02fabfa\",\n  \"title\": \"string\",\n  \"description\": null,\n  \"priority\": 4923,\n  \"dueDate\": null\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/Reminders/:reminderId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "Reminders",
+                                ":reminderId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "reminderId",
+                                  "value": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "body": ""
+                        }
+                      ]
+                    },
+                    {
+                      "name": "/api/v1/Reminders/:reminderId",
+                      "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/Reminders/:reminderId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "Reminders",
+                            ":reminderId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reminderId",
+                              "value": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/Reminders/:reminderId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "Reminders",
+                                ":reminderId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "reminderId",
+                                  "value": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "body": ""
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "/api/v1/Reminders",
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "text/plain"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"categoryId\": \"1efe6695-11f0-bafb-310b-41df93b8bf45\",\n  \"title\": \"string\",\n  \"description\": null,\n  \"priority\": 9945,\n  \"dueDate\": \"1980-01-23T15:53:18.853Z\",\n  \"usersEmails\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v1/Reminders",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "Reminders"
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "text/plain"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"categoryId\": \"1efe6695-11f0-bafb-310b-41df93b8bf45\",\n  \"title\": \"string\",\n  \"description\": null,\n  \"priority\": 9945,\n  \"dueDate\": \"1980-01-23T15:53:18.853Z\",\n  \"usersEmails\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/Reminders",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "Reminders"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "4766b0c1-4fc6-074b-97ba-62a6a1150c68"
+                    }
+                  ]
+                },
+                {
+                  "name": "/api/v1/Reminders",
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/plain"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v1/Reminders",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "Reminders"
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/plain"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/Reminders",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "Reminders"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "[\n  {\n    \"id\": \"411ea8ee-c7ca-9917-cbdd-10c02a381d50\",\n    \"categoryId\": \"6b59a6cc-1ed4-358c-7d45-8c75e4f79591\",\n    \"categoryName\": \"string\",\n    \"title\": \"string\",\n    \"priority\": 1430,\n    \"isCompleted\": 7759\n  },\n  {\n    \"id\": \"544984e3-b5c0-85b9-e01d-4e589dc98f49\",\n    \"categoryId\": \"277f3f52-8b19-50af-b93e-6ee0bd945ee8\",\n    \"categoryName\": \"string\",\n    \"title\": \"string\",\n    \"priority\": 7427,\n    \"isCompleted\": 7861\n  }\n]"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5041/"
+    },
+    {
+      "key": "X-Access-Token",
+      "value": ""
+    }
+  ]
+}
